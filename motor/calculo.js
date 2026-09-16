@@ -187,26 +187,26 @@ function calcularReceitaReconhecida(premissas, config) {
 
 function calcularProjecaoCenarios(premissas, base) {
   const configs = {
-    brasilSozinho: {
-      nome: 'A — Só Brasil, +5%/ano',
+    conservador: {
+      nome: 'A — Conservador',
+      baseInicial: base.pontosPagantes,
+      novosEntrantes: premissas.novosEntrantesConservador,
+      adocaoMadura: premissas.adocaoPacoteBaixa,
+      adocaoNovos: premissas.adocaoPacoteBaixa
+    },
+    baseline: {
+      nome: 'B — Base (provável)',
       baseInicial: base.pontosPagantes,
       novosEntrantes: premissas.novosEntrantesAno,
       adocaoMadura: premissas.adocaoPacoteMadura,
       adocaoNovos: premissas.adocaoPacoteNovos
     },
-    comDealer: {
-      nome: 'B — Brasil + 200 devices/ano via dealer',
+    otimista: {
+      nome: 'C — Otimista',
       baseInicial: base.pontosPagantes,
-      novosEntrantes: premissas.novosEntrantesAno + 200,
+      novosEntrantes: premissas.novosEntrantesOtimista,
       adocaoMadura: premissas.adocaoPacoteMadura,
-      adocaoNovos: premissas.adocaoPacoteNovos
-    },
-    comDireto: {
-      nome: 'C — Brasil + 100 devices/ano direto',
-      baseInicial: base.pontosPagantes,
-      novosEntrantes: premissas.novosEntrantesAno + 100,
-      adocaoMadura: premissas.adocaoPacoteMadura,
-      adocaoNovos: premissas.adocaoPacoteNovos
+      adocaoNovos: premissas.adocaoPacoteMadura
     }
   };
 

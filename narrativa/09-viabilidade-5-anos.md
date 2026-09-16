@@ -1,12 +1,12 @@
 # Viabilidade: Cinco Anos com Dados Reais
 
-A projeção de cinco anos parte do dado real de {{receita2025}} em 2025, com realização de {{realizacao2025}}. Sobre essa base, três cenários:
+A projeção de cinco anos parte do dado real de {{receita2025}} em 2025, com realização de {{realizacao2025}}. Sobre essa base, três cenários de novos entrantes e adoção de pacote:
 
-**Cenário A: só Brasil, {{crescimentoA}} ao ano.** A base atual cresce com {{novosEntrantesAno}} novos entrantes por ano, adoção de pacote em {{adocaoPacoteMadura}}, churn de {{churnAno}}. A receita reconhecida em 2030 é {{receitaA2030}}; a margem contábil, {{margemA2030}}.
+**Cenário A: conservador — {{novosEntrantesConservador}} novos entrantes/ano, {{adocaoPacoteBaixa}} de adoção de pacote.** Novos dispositivos entram na base, mas a maioria não fecha pacote no primeiro ano — permanece em cobrança avulsa ou com primeiro ano de cortesia. A receita reconhecida em 2030 é {{receitaA2030}}; a margem contábil, {{margemA2030}}.
 
-**Cenário B: Brasil + {{novosDealer}} devices/ano via dealer a {{precoDealer}}.** Os novos entrantes vêm pelo canal de dealer, com preço menor por device mas sem custo de suporte e cobrança. A receita em 2030 é {{receitaB2030}}; a margem, {{margemB2030}}.
+**Cenário B: base (provável) — {{novosEntrantesAno}} novos entrantes/ano, {{adocaoPacoteMadura}} de adoção.** A base atual cresce com novos entrantes que, no segundo ano, migram para pacote de três anos com recorrência automática. O primeiro ano de cortesia é gratuito — não gera receita no ano de entrada, mas cria a base para receita reconhecida nos anos seguintes. Se esse período fosse faturado como serviço, entraria na receita. A receita em 2030 é {{receitaB2030}}; a margem, {{margemB2030}}.
 
-**Cenário C: Brasil + {{novosDireto}} devices/ano direto a {{precoDireto}}.** O crescimento vem pelo canal direto, com preço maior e custo operacional maior. A receita em 2030 é {{receitaC2030}}; a margem, {{margemC2030}}.
+**Cenário C: otimista — {{novosEntrantesOtimista}} novos entrantes/ano, alta penetração de pacote.** O crescimento acelerado pressupõe que a estrutura de cobrança automatizada (Stripe) e a separação clara de preço de hardware vs. software estejam operacionais. Sem essas condições, o volume não se traduz em receita. A receita em 2030 é {{receitaC2030}}; a margem, {{margemC2030}}.
 
 O efeito mais potente não está nos cenários de volume, está nos novos produtos. Monitoramento e manejo de pivôs, a {{precoNovoProduto}} por device/ano cada, adotados por {{adocaoNovoProduto}} da base, elevam o ARPU de {{arpuAtual}} para {{arpuNovo}}. O ARR potencial sobe de {{arrAtual}} para {{arrNovo}} — sem adicionar um pivô.
 

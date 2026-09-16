@@ -18,6 +18,12 @@ Este documento registra a origem e data de cada valor em `dados/`.
 | `anosPacote` | 3 | Duração padrão do pacote plurianual | Ago/2026 |
 | `adocaoPacoteMadura` | 100% | Decisão comercial vigente: toda base em pacote | Set/2026 |
 | `adocaoPacoteNovos` | 100% | Decisão comercial vigente: todos novos em pacote | Set/2026 |
+| `adocaoPacoteBaixa` | 60% | Cenário conservador: parte dos novos entrantes não fecha pacote no primeiro ano | Set/2026 |
+| `primeiroAnoGratis` | true | Novos entrantes não geram receita no ano de entrada (cortesia/piloto) | Set/2026 |
+| `novosEntrantesConservador` | 150 | Cenário conservador: poucos novos entrantes por ano | Set/2026 |
+| `novosEntrantesOtimista` | 400 | Cenário otimista: mais novos entrantes por ano, pressupõe estrutura automatizada | Set/2026 |
+| `precoNovoProduto` | R$ 600/device/ano | Preço referência para monitoramento e manejo de pivôs | Set/2026 |
+| `adocaoNovoProduto` | 30% | Taxa esperada de adoção de novos produtos pela base existente | Set/2026 |
 | `custoFixoPlataforma` | R$ 600.000/ano | Modelo financeiro oficial (infraestrutura cloud + time técnico) | Ago/2026 |
 | `custoVarPontoInfra` | R$ 96/ano/ponto | Custo de nuvem AWS + conectividade por dispositivo | Ago/2026 |
 | `custoVarPontoSuporte` | R$ 60/ano/ponto | Custo de atendimento N1/N2 por dispositivo | Ago/2026 |

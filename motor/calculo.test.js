@@ -20,7 +20,8 @@ const { default: Calculo } = await import(path.join(root, 'motor', 'calculo.js')
 const {
   calcularEscopoPotencial,
   calcularReceitaReconhecida,
-  calcularPricingComparado
+  calcularPricingComparado,
+  calcularProjecaoCenarios
 } = Calculo;
 
 let pass = 0;
@@ -80,7 +81,11 @@ assert('Margem contábil 2026', ano2026.margem, 3085308, 1);
 // 3. Asserções estruturais
 console.log('\n3. Asserções estruturais:');
 
-// Nenhum ano com receita zero
+// Primeiro ano grátis: novos entrantes do ano 1 não geram receita
+const primeiroAno = resultado.anos[0];
+assertEquals('Primeiro ano: novos entrantes não geram receita recorrente', primeiroAno.novosRecorrente === 0 && primeiroAno.novosPacote === 0, true);
+
+// Nenhum ano com receita zero (exceto se primeiroAnoGratis=true e baseInicial=0 — não é o caso)
 const anosComReceitaZero = resultado.anos.filter(a => a.receitaReconhecida === 0);
 assertEquals('Nenhum ano com receita reconhecida = 0', anosComReceitaZero.length, 0);
 
@@ -94,6 +99,15 @@ if (resultado.coortes.length > 0) {
   const somaReceitas = anosCoorte.reduce((s, a) => s + a.receitaPacote, 0);
   assert('Soma receitas coorte = caixa total', somaReceitas, primeiraCoorte.totalContrato, 0.01);
 }
+
+// 3.5. Projeção de cenários (nomes atualizados)
+console.log('\n3.5. Projeção de cenários:');
+const cenarios = calcularProjecaoCenarios(premissas, base);
+assertEquals('Cenário conservador existe', !!cenarios.conservador, true);
+assertEquals('Cenário baseline existe', !!cenarios.baseline, true);
+assertEquals('Cenário otimista existe', !!cenarios.otimista, true);
+assertEquals('Conservador < baseline (receita 2030)', cenarios.conservador.anos[4].receitaReconhecida < cenarios.baseline.anos[4].receitaReconhecida, true);
+assertEquals('Baseline < otimista (receita 2030)', cenarios.baseline.anos[4].receitaReconhecida < cenarios.otimista.anos[4].receitaReconhecida, true);
 
 // 4. Pricing Comparado
 console.log('\n4. Pricing Comparado:');
