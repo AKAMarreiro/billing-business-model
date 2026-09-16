@@ -1,0 +1,15 @@
+{
+  "name": "irricontrol-one-receita",
+  "version": "1.0.0",
+  "description": "Pipeline de build para análise do modelo de receita de assinatura Irricontrol ONE",
+  "type": "module",
+  "scripts": {
+    "verificar": "node scripts/verificar.js",
+    "build": "node render/build-derivados.js && node render/build-html.js && python render/build-xlsx.py",
+    "test": "node motor/calculo.test.js"
+  },
+  "keywords": ["receita", "assinatura", "saaS", "agronegócio", "pipeline"],
+  "author": "Marreiro William",
+  "license": "UNLICENSED",
+  "private": true
+}
