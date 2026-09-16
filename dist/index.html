@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Irricontrol ONE - Modelo de Receita</title>
-<style>:root { --bg:#fafafa; --fg:#1a1a1a; --muted:#666; --accent:#2c5282; --border:#ddd; }
+<style>:root { --bg:#fafafa; --fg:#1a1a1a; --muted:#666; --accent:#2c5282; --border:#ddd; --chart1:#2c5282; --chart2:#ed8936; --chart3:#48bb78; }
 @media (prefers-color-scheme: dark) {
-  :root { --bg:#1a1a1a; --fg:#e8e8e8; --muted:#999; --accent:#63b3ed; --border:#444; }
+  :root { --bg:#1a1a1a; --fg:#e8e8e8; --muted:#999; --accent:#63b3ed; --border:#444; --chart1:#63b3ed; --chart2:#f6ad55; --chart3:#68d391; }
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.7;padding:2rem 1rem}
-.container{max-width:720px;margin:0 auto}
+.container{max-width:900px;margin:0 auto}
 header{border-bottom:3px solid var(--accent);padding-bottom:1rem;margin-bottom:2rem}
 h1{font-size:1.8rem;color:var(--accent);margin-bottom:.3rem}
 .subtitle{color:var(--muted);font-size:.95rem}
@@ -21,10 +21,31 @@ ul{margin:0 0 1rem 1.5rem}
 li{margin-bottom:.4rem}
 strong{color:var(--accent)}
 hr.secao-divisor{border:0;border-top:2px solid var(--accent);margin:2.5rem 0;opacity:.4}
+
+.chart-container{position:relative;height:300px;margin:1.5rem 0;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:1rem}
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:1.5rem 0}
+.chart-box{border:1px solid var(--border);border-radius:6px;padding:1rem;background:var(--bg)}
+.chart-box h4{color:var(--accent);font-size:1rem;margin-bottom:.5rem}
+
+.simulador{background:var(--bg);border:2px solid var(--accent);border-radius:8px;padding:1.5rem;margin:2rem 0}
+.simulador h3{margin-top:0}
+.sim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1rem 0}
+.sim-grid label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.25rem}
+.sim-grid input{width:100%;padding:.5rem;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--fg);font-size:.95rem}
+.sim-grid input:focus{outline:none;border-color:var(--accent)}
+.sim-result{background:rgba(44,82,130,.05);border-radius:6px;padding:1rem;margin-top:1rem}
+.sim-result table{width:100%;border-collapse:collapse;font-size:.9rem}
+.sim-result th,.sim-result td{padding:.5rem;text-align:left;border-bottom:1px solid var(--border)}
+.sim-result th{color:var(--accent);font-weight:600}
+.sim-result .num{font-family:monospace;text-align:right}
+
+.valor-destaque{background:rgba(237,137,54,.1);color:var(--fg);padding:.1rem .4rem;border-radius:3px;font-weight:600}
+
 @media print{
   body{background:#fff;color:#000}
   h2{color:#000;border-color:#999}
   .secao-divisor{border-color:#999}
+  .simulador,.chart-container,.chart-box{display:none}
 }</style>
 </head>
 <body>
@@ -33,93 +54,550 @@ hr.secao-divisor{border:0;border-top:2px solid var(--accent);margin:2.5rem 0;opa
   <h1>Irricontrol ONE</h1>
   <p class="subtitle">Modelo de Receita &middot; Corte real: 2026-08-31 &middot; 3422 pontos pagantes &middot; 4822 dispositivos no escopo</p>
 </header>
-<h1>O Ponto de Partida</h1>
-<p>A análise começa com um corte real do banco de dados: em 2026-08-31, a Irricontrol tem 4.822 dispositivos conectados no Brasil, distribuídos em 963 fazendas. Destes, 3.422 pagam anuidade regularmente.</p>
-<p>O potencial teórico da base atual é de 5.786.400 por ano (4.822 pontos × 1.200). O que entra no caixa hoje, já líquido de inadimplência, é 3.777.888. Isso deixa um gap de 2.008.512 por ano — uma taxa de realização de 65.</p>
-<p>Há duas visões legítimas deste escopo, e ambas precisam ser mantidas separadas. A visão histórica considera apenas os 3.847 pivôs conectados (Nexus e SmartConnect), que geram 4.616.400 de potencial. Nessa visão, a realização de 2025 foi de 89, pois Irripump e medidor de nível ainda não estavam no escopo de anuidade. A visão prospectiva inclui os 4.822 pontos totais e projeta 5.786.400 — é esta que alimenta o modelo de decisão, porque a intenção é trazer os três produtos para a mesma anuidade.</p>
-<p>A correção metodológica que mudou o diagnóstico: a análise inicial partiu de uma premissa de R$ 0,8 milhão de ARR baseada em 1.000 pivôs pagantes. Os dados reais do Stripe corrigiram isso para cima: são 3.422 pontos pagantes, gerando 3.777.888. A operação já está na zona de sustentabilidade — o problema não é sobrevivência, é eficiência e estrutura.</p>
-<p>O gap de 2.008.512 não é homogêneo. Ele tem três causas distintas, com tratamentos distintos, e tratá-lo como um número único leva a decisão errada.</p>
-<hr class='secao-divisor'>
-<h1>A História do Stripe</h1>
-<p>A operação de assinatura da Irricontrol começou em abril de 2023 com o primeiro invoice via Stripe. O que se seguiu foram cinco meses de volume zero — a plataforma estava ativa, mas o modelo de cobrança ainda não.</p>
-<p>A atividade mínima se estendeu até março de 2024. A inflexão veio em abril de 2024, com 1.496.000 de charge e 2.261.000 de invoice — o primeiro mês em que a operação real começou a se materializar.</p>
-<p>O evento mais narrativamente importante foi outubro de 2024: 2.261.000 de invoice num único mês, com apenas 1.496.000 de charge. Parte dessa diferença vem de pacotes plurianuais antecipados — o invoice reconhece todo o valor do contrato, o charge reflete a parcela. Mas a maior parte da distância entre invoice e charge ao longo de toda a série não é contábil: é operacional.</p>
-<p>A operação de cobrança hoje é manual. O administrador e o time de vendas emitem múltiplos invoices pelo mesmo cliente: a fatura original, a segunda via com desconto negociado, a terceira via com prazo estendido, a quarta via após o cliente alegar que não recebeu. Cliente não paga no prazo — emite outra. Cliente pede desconto — emite outra com valor diferente. O invoice sobe; o charge não acompanha. A distância entre os dois não é natureza do produto, é fricção do processo.</p>
-<p>A estabilização de 2025 mostra 2.010.000 de charge ao ano contra 2.070.000 de invoice. A diferença persistente não deve ser lida como risco de crédito. É o acúmulo de reemissoes, ajustes e negociações que nunca foram consolidados em um único invoice correto.</p>
-<p>O parcial de 2026 (janeiro a agosto) acumula 1.740.000 de charge e 1.780.000 de invoice. A trajetória é de crescimento, mas o crescimento é limitado pela estrutura atual de cobrança — não pelo mercado.</p>
-<p>O ponto analítico central: a distância entre invoice e charge é, em grande parte, um indicador de ineficiência operacional. Quem olha apenas o charge subestima a saúde da operação; quem olha apenas o invoice subestima o gap real de caixa. O número que importa é o charge — o que efetivamente entrou no banco.</p>
-<hr class='secao-divisor'>
-<h1>O Gap: Três Causas, Não Uma</h1>
-<p>Tratar o gap como um número homogêneo leva a decisão errada. São três causas distintas, com tratamentos distintos.</p>
-<p><strong>Primeira causa: bonificação intencional.</strong> Clientes que recebem anuidade gratuita ou reduzida como parte de negociação comercial. Isso é escolha, não inadimplência. O tratamento é estrutural: definir prazo e condições para que a bonificação não se torne permanente.</p>
-<p><strong>Segunda causa: pacotes plurianuais pré-pagos.</strong> O exemplo concreto: em outubro de 2024, um cliente fechou trinta pivôs por três anos antecipados. Isso gerou 1.496.000 de charge em 2024 e zero em 2025 e 2026 — dois anos de gap falso para quem pagou em dia. O pacote é a solução, não o problema. O problema é a falta de reconhecimento contábil: o caixa entra de uma vez, mas a receita deveria ser reconhecida ao longo do prazo.</p>
-<p><strong>Terceira causa: inadimplência residual.</strong> A taxa de inadimplência observada no Stripe é de 0. Isso é perda real, mas é a menor das três causas. O tratamento é operacional: cobrança automatizada, protocolo de 14 dias, bloqueio no décimo quinto dia.</p>
-<p>A distinção importa porque cada causa leva a uma ação diferente. Quem confunde pacote plurianual com inadimplência propõe reduzir desconto onde deveria estruturar receita diferida. Quem confunde bonificação com inadimplência propõe ação judicial onde deveria renegociar contrato.</p>
-<hr class='secao-divisor'>
-<h1>Pricing: o Brasil contra a Tabela Global</h1>
-<p>A tabela global da Bauer — proposta Helton 2024 — estabelece preços em USD por device/ano, com dois eixes: volume (cinco faixas) e duração (um, dois ou três anos).</p>
-<p>Convertendo a anuidade brasileira de 1.200 pelo câmbio de referência (6), o preço fica em 211. Na tabela de cliente direto, esse valor cai no tier 1-10, entre 170 e 220 devices, contrato de 1 ano.</p>
-<p>A posição é a segunda pior da tabela inteira. Para um mercado que é o maior do portfolio Bauer em número de dispositivos, o Brasil recebe menos desconto de volume do que um cliente com 1 a 10 devices. Além disso, o Brasil fecha pacotes plurianuais constantemente — pela lógica da própria tabela, deveria estar no topo da curva de desconto (40% para 3 anos), não no fundo.</p>
-<p>O efetivo recebido no Brasil — 1.200 com desconto de 0, resultando em 960 — se aproxima da faixa de dealer (467 a 593). O spread entre cliente direto e dealer na tabela global é de 116. No Brasil, a diferença entre o preço de tabela e o efetivo recebido é de 240.</p>
-<p>O argumento central: a régua da tabela global é volume e duração. Pelos dois critérios, o Brasil deveria estar no topo da curva de desconto, não no fundo. A ausência de um desconto formal por plurianual — combinada com o desconto informal de 0 praticado pelo comercial — cria uma situação em que o cliente percebe que ganhou desconto, não que pagou por software.</p>
-<hr class='secao-divisor'>
-<h1>O Mecanismo que Destrói o Pricing Power</h1>
-<p>O ciclo de renovação da Irricontrol segue um padrão previsível. O cliente recebe a notificação de vencimento. O pagamento não entra nos primeiros dias. No décimo quarto dia, o protocolo de cobrança envia um alerta. No décimo quinto dia, o pivô é bloqueado — para de funcionar. O cliente liga. O comercial entra em cena. A anuidade vira moeda de troca: desconto de 0 por três anos de pacote, ou prazo estendido, ou bonificação de um produto novo.</p>
-<p>O churn cai para perto de zero. Isso é bom — o cliente permanece. O problema é o preço que essa retenção custa: a anuidade deixa de ser preço de software e vira desconto de hardware. O cliente não percebe que paga por plataforma; percebe que ganhou benefício.</p>
-<p>Qualquer produto novo que entrar nessa estrutura herda o mecanismo e nasce commoditizado. O monitoramento de pivôs, o manejo hídrico, a gestão de safra — todos são software puro, sem âncora física. Quando o comercial oferece pacote com desconto, o produto novo entra de graça e sai invisível. Já está acontecendo na conversão G1→G2: o cliente que migra de uma geração para outra não paga a diferença de valor do software; paga a diferença de hardware e recebe o software como bonificação.</p>
-<p>O mecanismo não é falha de execução. É falha de estrutura. A anuidade está acoplada ao hardware no contrato, no discurso comercial e na percepção do cliente. Desacoplar exige decisão de preço antes do lançamento de qualquer produto novo.</p>
-<hr class='secao-divisor'>
-<h1>A Era do Hardware e o que Muda com SaaS Puro</h1>
-<p>A Irricontrol nasceu como empresa de hardware. O pivô conectado, o painel de controle, o sensor de umidade — tudo vinha com um dispositivo físico que o cliente tocava, instalava, mantinha. Essa âncora física tornava o churn estruturalmente difícil: para cancelar o serviço, o cliente precisava desinstalar hardware, perder investimento feito, aceitar obsolescência.</p>
-<p>O desconto comercial era tolerável porque a retenção estava garantida pela âncora. Mesmo com 0 de desconto no pacote, o cliente permanecia porque o hardware permanecia.</p>
-<p>Monitoramento e manejo de pivôs são diferentes. São 100% software. Não há dispositivo físico, não há instalação, não há investimento irrecuperável. Quem cancela não perde nada material — apenas deixa de acessar uma plataforma.</p>
-<p>Sem a âncora física, a retenção depende exclusivamente da percepção de valor do software. Se o software é invisível no contrato — porque entrou como bonificação de pacote —, o cliente não desenvolve percepção de valor. Quando o pacote acaba, o software sai junto.</p>
-<p>A janela para separar o preço é antes do lançamento. Depois que o produto entra no mecanismo de pacote, não há mais como recuperar pricing power. O custo de corrigir depois é muito maior que o custo de estruturar antes.</p>
-<hr class='secao-divisor'>
-<h1>Stripe = Escala, Operação Manual = Teto</h1>
-<p>O Stripe bem configurado faz sozinho o que hoje é feito manualmente: emite fatura, cobra cartão, envia lembrete, registra pagamento. Sem intervenção humana. Com a base atual de 3.422 clientes, a operação manual ainda é viável. Com a base projetada de 4.367 em cinco anos, não será.</p>
-<p>O teto prático da operação manual é de 10 a 20 clientes internacionais por mês. Além disso, o risco de erro cresce exponencialmente: um input errado no endereço de faturamento, uma configuração de moeda trocada, um CNPJ digitado com dígito errado — e o bloqueio automático dispara para quem já pagou. O cliente liga irritado. O time de suporte gasta horas. O comercial oferece desconto para compensar.</p>
-<p>A estrutura internacional acentua o problema. Times regionais fecham contratos no Brasil; o billing é feito na Áustria; o repasse entre filiais requer registro manual no Stripe. Cada passagem manual é um ponto de falha. O SAF System, a 385 por device/ano, cobrado direto pela Irricontrol com repasse a parceiros, infla o charge_volume sem ser receita própria — e confunde qualquer análise rápida.</p>
-<p>O spread dealer contra cliente direto de 116 a 88 mostra o quanto a estrutura de canal distorce a receita. Quem vende direto recebe menos que quem vende via dealer, apesar de custar menos para manter.</p>
-<p>A pergunta não é se o Stripe escala. É se a operação manual deixa de escalar antes que o Stripe seja necessário.</p>
-<hr class='secao-divisor'>
-<h1>O Acordo Bauer e a Estrutura Internacional</h1>
-<p>O Grupo Bauer opera com uma estrutura de billing centralizada na Áustria e times regionais que fecham contratos nos mercados locais. A Irricontrol segue o mesmo modelo: vendas no Brasil, faturamento na Áustria, repasse entre filiais.</p>
-<p>A complexidade não está na estrutura em si, está na passagem de informação. Quando um time regional fecha um contrato, o dado precisa chegar ao billing em Áustria com precisão: número de devices, tier de volume, duração do pacote, forma de pagamento, dados fiscais do cliente. Cada campo que chega errado gera uma reemissão de invoice, um ajuste de charge, uma reconciliação manual.</p>
-<p>O SAF System, a 385 por device/ano, é um caso extremo dessa complexidade. Cobrado direto pela Irricontrol com repasse a parceiros, o SAF infla o charge_volume sem ser receita própria. Quem olha o dashboard do Stripe e vê 3.750.000 de charge precisa saber que parte desse valor é pass-through — dinheiro que entra e sai sem parar na conta da Irricontrol.</p>
-<p>O spread entre cliente direto e dealer — 116 a 88 — mostra o quanto a estrutura de canal distorce a receita. Quem vende via dealer recebe menos por device, mas o dealer absorve o custo de suporte e cobrança. Quem vende direto recebe mais por device, mas assume o custo operacional inteiro.</p>
-<p>A decisão de estrutura internacional já foi tomada. O que falta é a execução: processo de passagem de dados, validação automática de invoice, e separação clara entre receita própria e pass-through nos relatórios.</p>
-<hr class='secao-divisor'>
-<h1>Viabilidade: Cinco Anos com Dados Reais</h1>
-<p>A projeção de cinco anos parte do dado real de 2.070.000 em 2025, com realização de 35. Sobre essa base, três cenários de novos entrantes e adoção de pacote:</p>
-<p><strong>Cenário A: conservador — 150 novos entrantes/ano, 1 de adoção de pacote.</strong> Novos dispositivos entram na base, mas a maioria não fecha pacote no primeiro ano — permanece em cobrança avulsa ou com primeiro ano de cortesia. A receita reconhecida em 2030 é 3.980.462; a margem contábil, 2.775.842.</p>
-<p><strong>Cenário B: base (provável) — 250 novos entrantes/ano, 1 de adoção.</strong> A base atual cresce com novos entrantes que, no segundo ano, migram para pacote de três anos com recorrência automática. O primeiro ano de cortesia é gratuito — não gera receita no ano de entrada, mas cria a base para receita reconhecida nos anos seguintes. Se esse período fosse faturado como serviço, entraria na receita. A receita em 2030 é 4.466.390; a margem, 3.188.450.</p>
-<p><strong>Cenário C: otimista — 400 novos entrantes/ano, alta penetração de pacote.</strong> O crescimento acelerado pressupõe que a estrutura de cobrança automatizada (Stripe) e a separação clara de preço de hardware vs. software estejam operacionais. Sem essas condições, o volume não se traduz em receita. A receita em 2030 é 5.126.744; a margem, 3.738.668.</p>
-<p><strong>A receita escondida.</strong> Em cada cenário, os novos entrantes do primeiro ano não aparecem na receita reconhecida — estão embutidos no preço do hardware. No cenário base, são 250 novos entrantes por ano. A 1.200 por device, isso representa 300.000 que deveria constar em nota de serviço, mas consta em nota de produto. Sem essa separação, o primeiro ano é realmente grátis: o cliente recebe software sem fatura de serviço correspondente. Em cinco anos, o acúmulo de receita escondida é de 1.657.689. O modelo contábil atual subfatura o valor do software e distorce a margem real da operação.</p>
-<p>O efeito mais potente não está nos cenários de volume, está nos novos produtos. Monitoramento e manejo de pivôs, a 600 por device/ano cada, adotados por 0 da base, elevam o ARPU de 960 para 1.320. O ARR potencial sobe de 3.285.120 para 4.517.040 — sem adicionar um pivô.</p>
-<p>A pergunta estratégica não é se sobrevivemos. É por que capturamos só parte do potencial. Com 3.422 pontos pagantes hoje e 4.822 no escopo, o gap de 2.008.512 não é de mercado — é de mecanismo.</p>
-<hr class='secao-divisor'>
-<h1>O que Precisa Mudar: Três Decisões antes do Lançamento</h1>
-<p>Antes de lançar qualquer produto novo, três decisões de estrutura precisam ser tomadas.</p>
-<p><strong>Primeira: desacoplar a anuidade dos novos produtos com piso não negociável.</strong> Monitoramento e manejo de pivôs são software puro. Se entram no pacote com desconto, o cliente não desenvolve percepção de valor. O piso é o preço de tabela — 1.800 no boleto, 1.200 no cartão com cobrança automática. Nenhum desconto comercial pode reduzir esse piso. Se o comercial precisa de margem para fechar, o desconto vem do hardware, não do software.</p>
-<p><strong>Segunda: estruturar plurianuais como subscription automática no Stripe.</strong> O pacote de três anos deve ser um plano de subscription com cobrança automática anual, não um invoice único pago à vista. O desconto é política — 0 para quem se compromete com recorrência automática — e não concessão de emergência no momento da renovação. Quando o cliente vence o pacote, a subscription continua no preço cheio, com opt-out explícito.</p>
-<p><strong>Terceira: separar receita própria de pass-through nos relatórios.</strong> O SAF System, repasses a parceiros, e qualquer outro fluxo de pass-through precisam estar em linha própria. Quem olha o dashboard do Stripe precisa ver 1.407.000 separada de 603.000. Sem essa separação, a análise de saúde financeira está sempre distorcida.</p>
-<p>Essas três decisões são de estrutura, não de execução. Não dependem de contratar mais gente, de desenvolver funcionalidade nova, ou de esperar aprovação de board. Dependem apenas de definição clara e comunicação ao time comercial.</p>
-<hr class='secao-divisor'>
-<h1>Dados Abertos</h1>
-<p>Este documento é construído sobre os dados que existem hoje. O que falta levantar, em ordem de prioridade:</p>
-<p><strong>Split cortesia contra pagante.</strong> Quantos dos 3.422 pontos pagantes estão em algum tipo de bonificação? Por quanto tempo? Com que data de término? Sem esse split, o gap de 2.008.512 não pode ser decomposto com precisão.</p>
-<p><strong>Breakdown dos contratos plurianuais.</strong> Quantos pacotes de 3 anos existem? Quando vencem? Qual a distribuição por cliente? O impacto no caixa de 2027, 2028 e 2029 depende dessas datas.</p>
-<p><strong>Custo operacional real do comercial.</strong> Quantos FTEs dedicados a retenção? Qual o custo total de salário, comissão e estrutura? Sem isso, não é possível calcular se a retenção manual se paga.</p>
-<p><strong>Volume de pass-through.</strong> Quanto do charge_volume do Stripe é SAF System, repasse a parceiros, ou outro fluxo que não é receita própria? Esse número precisa ser subtraído de qualquer análise de saúde financeira.</p>
-<p><strong>Clientes internacionais por canal.</strong> Quantos clientes diretos? Quantos via dealer? Qual o ARPU médio de cada canal? A decisão de estrutura de canal depende dessa comparação.</p>
-<p><strong>ARPU por fazenda.</strong> O total de 963 fazendas com 3.422 pontos pagantes dá uma média de 4.264 por fazenda. Mas a distribuição não é uniforme: quantas fazendas têm 1-5 pivôs, quantas têm 20+? A decisão de tier de preço depende dessa distribuição.</p>
-<p><strong>Distribuição de tamanho de fazenda.</strong> Área média por fazenda, irrigada e não-irrigada. Isso afeta o potencial do produto de manejo hídrico.</p>
-<p><strong>Churn real por safra.</strong> O churn de 0 é anual. Mas quando no ano o cliente cancela? No início da safra (depois da instalação) ou no final (quando o pagamento vence)? O momento do churn afeta a estratégia de retenção.</p>
-<p><strong>CAC da equipe comercial.</strong> Custo de aquisição de um novo cliente: salário do vendedor, comissão, viagem, tempo de ciclo. Sem CAC, não é possível comparar o custo de aquisição com o lifetime value.</p>
-<p><strong>Sequência de reuniões para fechamento.</strong> Denise (produto) → Luiz (comercial) → Áustria (board). Cada etapa da sequência precisa de documento de decisão, não apenas de entendimento verbal. O preço de SaaS puro, a estrutura de tiers, e a política de desconto precisam sair dessas reuniões como decisão aprovada, não como intenção registrada.</p>
-<p>Sem esses dados, o modelo é ilustrativo. Com esses dados, é um instrumento de decisão.</p>
+
+<section id="dashboard">
+<h2>Dashboard Visual</h2>
+<div class="chart-grid">
+  <div class="chart-box">
+    <h4>Stripe Mensal: Charge vs Invoice</h4>
+    <div class="chart-container"><canvas id="chart-stripe"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h4>Cenarios 5 Anos: Receita Reconhecida</h4>
+    <div class="chart-container"><canvas id="chart-cenarios-receita"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h4>Receita Escondida vs Reconhecida (Base)</h4>
+    <div class="chart-container"><canvas id="chart-escondida"></canvas></div>
+  </div>
+  <div class="chart-box">
+    <h4>Margem: Reconhecida vs Verdadeira</h4>
+    <div class="chart-container"><canvas id="chart-margem"></canvas></div>
+  </div>
+</div>
+</section>
+
+<section class="simulador" id="simulador">
+<h3>Simulador Interativo</h3>
+<p>Mude as premissas e veja o impacto em tempo real na receita e margem.</p>
+<div class="sim-grid">
+  <div><label for="sim-anuidade">Anuidade (R$)</label><input type="number" id="sim-anuidade" value="1200" step="50"></div>
+  <div><label for="sim-novos">Novos entrantes/ano</label><input type="number" id="sim-novos" value="250" step="25"></div>
+  <div><label for="sim-churn">Churn anual (%)</label><input type="number" id="sim-churn" value="3" step="0.5" min="0" max="50"></div>
+  <div><label for="sim-desconto">Desconto pacote (%)</label><input type="number" id="sim-desconto" value="20" step="5" min="0" max="100"></div>
+  <div><label for="sim-inadimplencia">Inadimplencia (%)</label><input type="number" id="sim-inadimplencia" value="8" step="1" min="0" max="100"></div>
+  <div><label for="sim-anos">Anos de projecao</label><input type="number" id="sim-anos" value="5" step="1" min="1" max="10"></div>
+</div>
+<div class="sim-result">
+  <table id="sim-tabela">
+    <thead><tr><th>Ano</th><th class="num">Pontos</th><th class="num">Receita Rec.</th><th class="num">Receita Esc.</th><th class="num">Receita Verd.</th><th class="num">Margem Rec.</th><th class="num">Margem Verd.</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+</section>
+
+<h1>O Ponto de Partida</h1>\n<p>A análise começa com um corte real do banco de dados: em 2026-08-31, a Irricontrol tem 4.822 dispositivos conectados no Brasil, distribuídos em 963 fazendas. Destes, 3.422 pagam anuidade regularmente.</p>\n<p>O potencial teórico da base atual é de 5.786.400 por ano (4.822 pontos × 1.200). O que entra no caixa hoje, já líquido de inadimplência, é 3.777.888. Isso deixa um gap de 2.008.512 por ano — uma taxa de realização de 65.</p>\n<p>Há duas visões legítimas deste escopo, e ambas precisam ser mantidas separadas. A visão histórica considera apenas os 3.847 pivôs conectados (Nexus e SmartConnect), que geram 4.616.400 de potencial. Nessa visão, a realização de 2025 foi de 89, pois Irripump e medidor de nível ainda não estavam no escopo de anuidade. A visão prospectiva inclui os 4.822 pontos totais e projeta 5.786.400 — é esta que alimenta o modelo de decisão, porque a intenção é trazer os três produtos para a mesma anuidade.</p>\n<p>A correção metodológica que mudou o diagnóstico: a análise inicial partiu de uma premissa de R$ 0,8 milhão de ARR baseada em 1.000 pivôs pagantes. Os dados reais do Stripe corrigiram isso para cima: são 3.422 pontos pagantes, gerando 3.777.888. A operação já está na zona de sustentabilidade — o problema não é sobrevivência, é eficiência e estrutura.</p>\n<p>O gap de 2.008.512 não é homogêneo. Ele tem três causas distintas, com tratamentos distintos, e tratá-lo como um número único leva a decisão errada.</p>\n<hr class='secao-divisor'>\n<h1>A História do Stripe</h1>\n<p>A operação de assinatura da Irricontrol começou em abril de 2023 com o primeiro invoice via Stripe. O que se seguiu foram cinco meses de volume zero — a plataforma estava ativa, mas o modelo de cobrança ainda não.</p>\n<p>A atividade mínima se estendeu até março de 2024. A inflexão veio em abril de 2024, com 1.496.000 de charge e 2.261.000 de invoice — o primeiro mês em que a operação real começou a se materializar.</p>\n<p>O evento mais narrativamente importante foi outubro de 2024: 2.261.000 de invoice num único mês, com apenas 1.496.000 de charge. Parte dessa diferença vem de pacotes plurianuais antecipados — o invoice reconhece todo o valor do contrato, o charge reflete a parcela. Mas a maior parte da distância entre invoice e charge ao longo de toda a série não é contábil: é operacional.</p>\n<p>A operação de cobrança hoje é manual. O administrador e o time de vendas emitem múltiplos invoices pelo mesmo cliente: a fatura original, a segunda via com desconto negociado, a terceira via com prazo estendido, a quarta via após o cliente alegar que não recebeu. Cliente não paga no prazo — emite outra. Cliente pede desconto — emite outra com valor diferente. O invoice sobe; o charge não acompanha. A distância entre os dois não é natureza do produto, é fricção do processo.</p>\n<p>A estabilização de 2025 mostra 2.010.000 de charge ao ano contra 2.070.000 de invoice. A diferença persistente não deve ser lida como risco de crédito. É o acúmulo de reemissoes, ajustes e negociações que nunca foram consolidados em um único invoice correto.</p>\n<p>O parcial de 2026 (janeiro a agosto) acumula 1.740.000 de charge e 1.780.000 de invoice. A trajetória é de crescimento, mas o crescimento é limitado pela estrutura atual de cobrança — não pelo mercado.</p>\n<p>O ponto analítico central: a distância entre invoice e charge é, em grande parte, um indicador de ineficiência operacional. Quem olha apenas o charge subestima a saúde da operação; quem olha apenas o invoice subestima o gap real de caixa. O número que importa é o charge — o que efetivamente entrou no banco.</p>\n<hr class='secao-divisor'>\n<h1>O Gap: Três Causas, Não Uma</h1>\n<p>Tratar o gap como um número homogêneo leva a decisão errada. São três causas distintas, com tratamentos distintos.</p>\n<p><strong>Primeira causa: bonificação intencional.</strong> Clientes que recebem anuidade gratuita ou reduzida como parte de negociação comercial. Isso é escolha, não inadimplência. O tratamento é estrutural: definir prazo e condições para que a bonificação não se torne permanente.</p>\n<p><strong>Segunda causa: pacotes plurianuais pré-pagos.</strong> O exemplo concreto: em outubro de 2024, um cliente fechou trinta pivôs por três anos antecipados. Isso gerou 1.496.000 de charge em 2024 e zero em 2025 e 2026 — dois anos de gap falso para quem pagou em dia. O pacote é a solução, não o problema. O problema é a falta de reconhecimento contábil: o caixa entra de uma vez, mas a receita deveria ser reconhecida ao longo do prazo.</p>\n<p><strong>Terceira causa: inadimplência residual.</strong> A taxa de inadimplência observada no Stripe é de 0. Isso é perda real, mas é a menor das três causas. O tratamento é operacional: cobrança automatizada, protocolo de 14 dias, bloqueio no décimo quinto dia.</p>\n<p>A distinção importa porque cada causa leva a uma ação diferente. Quem confunde pacote plurianual com inadimplência propõe reduzir desconto onde deveria estruturar receita diferida. Quem confunde bonificação com inadimplência propõe ação judicial onde deveria renegociar contrato.</p>\n<hr class='secao-divisor'>\n<h1>Pricing: o Brasil contra a Tabela Global</h1>\n<p>A tabela global da Bauer — proposta Helton 2024 — estabelece preços em USD por device/ano, com dois eixes: volume (cinco faixas) e duração (um, dois ou três anos).</p>\n<p>Convertendo a anuidade brasileira de 1.200 pelo câmbio de referência (6), o preço fica em 211. Na tabela de cliente direto, esse valor cai no tier 1-10, entre 170 e 220 devices, contrato de 1 ano.</p>\n<p>A posição é a segunda pior da tabela inteira. Para um mercado que é o maior do portfolio Bauer em número de dispositivos, o Brasil recebe menos desconto de volume do que um cliente com 1 a 10 devices. Além disso, o Brasil fecha pacotes plurianuais constantemente — pela lógica da própria tabela, deveria estar no topo da curva de desconto (40% para 3 anos), não no fundo.</p>\n<p>O efetivo recebido no Brasil — 1.200 com desconto de 0, resultando em 960 — se aproxima da faixa de dealer (467 a 593). O spread entre cliente direto e dealer na tabela global é de 116. No Brasil, a diferença entre o preço de tabela e o efetivo recebido é de 240.</p>\n<p>O argumento central: a régua da tabela global é volume e duração. Pelos dois critérios, o Brasil deveria estar no topo da curva de desconto, não no fundo. A ausência de um desconto formal por plurianual — combinada com o desconto informal de 0 praticado pelo comercial — cria uma situação em que o cliente percebe que ganhou desconto, não que pagou por software.</p>\n<hr class='secao-divisor'>\n<h1>O Mecanismo que Destrói o Pricing Power</h1>\n<p>O ciclo de renovação da Irricontrol segue um padrão previsível. O cliente recebe a notificação de vencimento. O pagamento não entra nos primeiros dias. No décimo quarto dia, o protocolo de cobrança envia um alerta. No décimo quinto dia, o pivô é bloqueado — para de funcionar. O cliente liga. O comercial entra em cena. A anuidade vira moeda de troca: desconto de 0 por três anos de pacote, ou prazo estendido, ou bonificação de um produto novo.</p>\n<p>O churn cai para perto de zero. Isso é bom — o cliente permanece. O problema é o preço que essa retenção custa: a anuidade deixa de ser preço de software e vira desconto de hardware. O cliente não percebe que paga por plataforma; percebe que ganhou benefício.</p>\n<p>Qualquer produto novo que entrar nessa estrutura herda o mecanismo e nasce commoditizado. O monitoramento de pivôs, o manejo hídrico, a gestão de safra — todos são software puro, sem âncora física. Quando o comercial oferece pacote com desconto, o produto novo entra de graça e sai invisível. Já está acontecendo na conversão G1→G2: o cliente que migra de uma geração para outra não paga a diferença de valor do software; paga a diferença de hardware e recebe o software como bonificação.</p>\n<p>O mecanismo não é falha de execução. É falha de estrutura. A anuidade está acoplada ao hardware no contrato, no discurso comercial e na percepção do cliente. Desacoplar exige decisão de preço antes do lançamento de qualquer produto novo.</p>\n<hr class='secao-divisor'>\n<h1>A Era do Hardware e o que Muda com SaaS Puro</h1>\n<p>A Irricontrol nasceu como empresa de hardware. O pivô conectado, o painel de controle, o sensor de umidade — tudo vinha com um dispositivo físico que o cliente tocava, instalava, mantinha. Essa âncora física tornava o churn estruturalmente difícil: para cancelar o serviço, o cliente precisava desinstalar hardware, perder investimento feito, aceitar obsolescência.</p>\n<p>O desconto comercial era tolerável porque a retenção estava garantida pela âncora. Mesmo com 0 de desconto no pacote, o cliente permanecia porque o hardware permanecia.</p>\n<p>Monitoramento e manejo de pivôs são diferentes. São 100% software. Não há dispositivo físico, não há instalação, não há investimento irrecuperável. Quem cancela não perde nada material — apenas deixa de acessar uma plataforma.</p>\n<p>Sem a âncora física, a retenção depende exclusivamente da percepção de valor do software. Se o software é invisível no contrato — porque entrou como bonificação de pacote —, o cliente não desenvolve percepção de valor. Quando o pacote acaba, o software sai junto.</p>\n<p>A janela para separar o preço é antes do lançamento. Depois que o produto entra no mecanismo de pacote, não há mais como recuperar pricing power. O custo de corrigir depois é muito maior que o custo de estruturar antes.</p>\n<hr class='secao-divisor'>\n<h1>Stripe = Escala, Operação Manual = Teto</h1>\n<p>O Stripe bem configurado faz sozinho o que hoje é feito manualmente: emite fatura, cobra cartão, envia lembrete, registra pagamento. Sem intervenção humana. Com a base atual de 3.422 clientes, a operação manual ainda é viável. Com a base projetada de 4.367 em cinco anos, não será.</p>\n<p>O teto prático da operação manual é de 10 a 20 clientes internacionais por mês. Além disso, o risco de erro cresce exponencialmente: um input errado no endereço de faturamento, uma configuração de moeda trocada, um CNPJ digitado com dígito errado — e o bloqueio automático dispara para quem já pagou. O cliente liga irritado. O time de suporte gasta horas. O comercial oferece desconto para compensar.</p>\n<p>A estrutura internacional acentua o problema. Times regionais fecham contratos no Brasil; o billing é feito na Áustria; o repasse entre filiais requer registro manual no Stripe. Cada passagem manual é um ponto de falha. O SAF System, a 385 por device/ano, cobrado direto pela Irricontrol com repasse a parceiros, infla o charge_volume sem ser receita própria — e confunde qualquer análise rápida.</p>\n<p>O spread dealer contra cliente direto de 116 a 88 mostra o quanto a estrutura de canal distorce a receita. Quem vende direto recebe menos que quem vende via dealer, apesar de custar menos para manter.</p>\n<p>A pergunta não é se o Stripe escala. É se a operação manual deixa de escalar antes que o Stripe seja necessário.</p>\n<hr class='secao-divisor'>\n<h1>O Acordo Bauer e a Estrutura Internacional</h1>\n<p>O Grupo Bauer opera com uma estrutura de billing centralizada na Áustria e times regionais que fecham contratos nos mercados locais. A Irricontrol segue o mesmo modelo: vendas no Brasil, faturamento na Áustria, repasse entre filiais.</p>\n<p>A complexidade não está na estrutura em si, está na passagem de informação. Quando um time regional fecha um contrato, o dado precisa chegar ao billing em Áustria com precisão: número de devices, tier de volume, duração do pacote, forma de pagamento, dados fiscais do cliente. Cada campo que chega errado gera uma reemissão de invoice, um ajuste de charge, uma reconciliação manual.</p>\n<p>O SAF System, a 385 por device/ano, é um caso extremo dessa complexidade. Cobrado direto pela Irricontrol com repasse a parceiros, o SAF infla o charge_volume sem ser receita própria. Quem olha o dashboard do Stripe e vê 3.750.000 de charge precisa saber que parte desse valor é pass-through — dinheiro que entra e sai sem parar na conta da Irricontrol.</p>\n<p>O spread entre cliente direto e dealer — 116 a 88 — mostra o quanto a estrutura de canal distorce a receita. Quem vende via dealer recebe menos por device, mas o dealer absorve o custo de suporte e cobrança. Quem vende direto recebe mais por device, mas assume o custo operacional inteiro.</p>\n<p>A decisão de estrutura internacional já foi tomada. O que falta é a execução: processo de passagem de dados, validação automática de invoice, e separação clara entre receita própria e pass-through nos relatórios.</p>\n<hr class='secao-divisor'>\n<h1>Viabilidade: Cinco Anos com Dados Reais</h1>\n<p>A projeção de cinco anos parte do dado real de 2.070.000 em 2025, com realização de 35. Sobre essa base, três cenários de novos entrantes e adoção de pacote:</p>\n<p><strong>Cenário A: conservador — 150 novos entrantes/ano, 1 de adoção de pacote.</strong> Novos dispositivos entram na base, mas a maioria não fecha pacote no primeiro ano — permanece em cobrança avulsa ou com primeiro ano de cortesia. A receita reconhecida em 2030 é 3.980.462; a margem contábil, 2.775.842.</p>\n<p><strong>Cenário B: base (provável) — 250 novos entrantes/ano, 1 de adoção.</strong> A base atual cresce com novos entrantes que, no segundo ano, migram para pacote de três anos com recorrência automática. O primeiro ano de cortesia é gratuito — não gera receita no ano de entrada, mas cria a base para receita reconhecida nos anos seguintes. Se esse período fosse faturado como serviço, entraria na receita. A receita em 2030 é 4.466.390; a margem, 3.188.450.</p>\n<p><strong>Cenário C: otimista — 400 novos entrantes/ano, alta penetração de pacote.</strong> O crescimento acelerado pressupõe que a estrutura de cobrança automatizada (Stripe) e a separação clara de preço de hardware vs. software estejam operacionais. Sem essas condições, o volume não se traduz em receita. A receita em 2030 é 5.126.744; a margem, 3.738.668.</p>\n<p><strong>A receita escondida.</strong> Em cada cenário, os novos entrantes do primeiro ano não aparecem na receita reconhecida — estão embutidos no preço do hardware. No cenário base, são 250 novos entrantes por ano. A 1.200 por device, isso representa 300.000 que deveria constar em nota de serviço, mas consta em nota de produto. Sem essa separação, o primeiro ano é realmente grátis: o cliente recebe software sem fatura de serviço correspondente. Em cinco anos, o acúmulo de receita escondida é de 1.657.689. O modelo contábil atual subfatura o valor do software e distorce a margem real da operação.</p>\n<p>O efeito mais potente não está nos cenários de volume, está nos novos produtos. Monitoramento e manejo de pivôs, a 600 por device/ano cada, adotados por 0 da base, elevam o ARPU de 960 para 1.320. O ARR potencial sobe de 3.285.120 para 4.517.040 — sem adicionar um pivô.</p>\n<p>A pergunta estratégica não é se sobrevivemos. É por que capturamos só parte do potencial. Com 3.422 pontos pagantes hoje e 4.822 no escopo, o gap de 2.008.512 não é de mercado — é de mecanismo.</p>\n<hr class='secao-divisor'>\n<h1>O que Precisa Mudar: Três Decisões antes do Lançamento</h1>\n<p>Antes de lançar qualquer produto novo, três decisões de estrutura precisam ser tomadas.</p>\n<p><strong>Primeira: desacoplar a anuidade dos novos produtos com piso não negociável.</strong> Monitoramento e manejo de pivôs são software puro. Se entram no pacote com desconto, o cliente não desenvolve percepção de valor. O piso é o preço de tabela — 1.800 no boleto, 1.200 no cartão com cobrança automática. Nenhum desconto comercial pode reduzir esse piso. Se o comercial precisa de margem para fechar, o desconto vem do hardware, não do software.</p>\n<p><strong>Segunda: estruturar plurianuais como subscription automática no Stripe.</strong> O pacote de três anos deve ser um plano de subscription com cobrança automática anual, não um invoice único pago à vista. O desconto é política — 0 para quem se compromete com recorrência automática — e não concessão de emergência no momento da renovação. Quando o cliente vence o pacote, a subscription continua no preço cheio, com opt-out explícito.</p>\n<p><strong>Terceira: separar receita própria de pass-through nos relatórios.</strong> O SAF System, repasses a parceiros, e qualquer outro fluxo de pass-through precisam estar em linha própria. Quem olha o dashboard do Stripe precisa ver 1.407.000 separada de 603.000. Sem essa separação, a análise de saúde financeira está sempre distorcida.</p>\n<p>Essas três decisões são de estrutura, não de execução. Não dependem de contratar mais gente, de desenvolver funcionalidade nova, ou de esperar aprovação de board. Dependem apenas de definição clara e comunicação ao time comercial.</p>\n<hr class='secao-divisor'>\n<h1>Dados Abertos</h1>\n<p>Este documento é construído sobre os dados que existem hoje. O que falta levantar, em ordem de prioridade:</p>\n<p><strong>Split cortesia contra pagante.</strong> Quantos dos 3.422 pontos pagantes estão em algum tipo de bonificação? Por quanto tempo? Com que data de término? Sem esse split, o gap de 2.008.512 não pode ser decomposto com precisão.</p>\n<p><strong>Breakdown dos contratos plurianuais.</strong> Quantos pacotes de 3 anos existem? Quando vencem? Qual a distribuição por cliente? O impacto no caixa de 2027, 2028 e 2029 depende dessas datas.</p>\n<p><strong>Custo operacional real do comercial.</strong> Quantos FTEs dedicados a retenção? Qual o custo total de salário, comissão e estrutura? Sem isso, não é possível calcular se a retenção manual se paga.</p>\n<p><strong>Volume de pass-through.</strong> Quanto do charge_volume do Stripe é SAF System, repasse a parceiros, ou outro fluxo que não é receita própria? Esse número precisa ser subtraído de qualquer análise de saúde financeira.</p>\n<p><strong>Clientes internacionais por canal.</strong> Quantos clientes diretos? Quantos via dealer? Qual o ARPU médio de cada canal? A decisão de estrutura de canal depende dessa comparação.</p>\n<p><strong>ARPU por fazenda.</strong> O total de 963 fazendas com 3.422 pontos pagantes dá uma média de 4.264 por fazenda. Mas a distribuição não é uniforme: quantas fazendas têm 1-5 pivôs, quantas têm 20+? A decisão de tier de preço depende dessa distribuição.</p>\n<p><strong>Distribuição de tamanho de fazenda.</strong> Área média por fazenda, irrigada e não-irrigada. Isso afeta o potencial do produto de manejo hídrico.</p>\n<p><strong>Churn real por safra.</strong> O churn de 0 é anual. Mas quando no ano o cliente cancela? No início da safra (depois da instalação) ou no final (quando o pagamento vence)? O momento do churn afeta a estratégia de retenção.</p>\n<p><strong>CAC da equipe comercial.</strong> Custo de aquisição de um novo cliente: salário do vendedor, comissão, viagem, tempo de ciclo. Sem CAC, não é possível comparar o custo de aquisição com o lifetime value.</p>\n<p><strong>Sequência de reuniões para fechamento.</strong> Denise (produto) → Luiz (comercial) → Áustria (board). Cada etapa da sequência precisa de documento de decisão, não apenas de entendimento verbal. O preço de SaaS puro, a estrutura de tiers, e a política de desconto precisam sair dessas reuniões como decisão aprovada, não como intenção registrada.</p>\n<p>Sem esses dados, o modelo é ilustrativo. Com esses dados, é um instrumento de decisão.</p>\n
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+const serieStripe = [
+    {
+        "mes":  "2023-04",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-05",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-06",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-07",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-08",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-09",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-10",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-11",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2023-12",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2024-01",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2024-02",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2024-03",
+        "charge":  0,
+        "invoice":  0
+    },
+    {
+        "mes":  "2024-04",
+        "charge":  110000,
+        "invoice":  160000
+    },
+    {
+        "mes":  "2024-05",
+        "charge":  120000,
+        "invoice":  170000
+    },
+    {
+        "mes":  "2024-06",
+        "charge":  130000,
+        "invoice":  180000
+    },
+    {
+        "mes":  "2024-07",
+        "charge":  140000,
+        "invoice":  190000
+    },
+    {
+        "mes":  "2024-08",
+        "charge":  150000,
+        "invoice":  200000
+    },
+    {
+        "mes":  "2024-09",
+        "charge":  160000,
+        "invoice":  210000
+    },
+    {
+        "mes":  "2024-10",
+        "charge":  160000,
+        "invoice":  901000
+    },
+    {
+        "mes":  "2024-11",
+        "charge":  406000,
+        "invoice":  120000
+    },
+    {
+        "mes":  "2024-12",
+        "charge":  120000,
+        "invoice":  130000
+    },
+    {
+        "mes":  "2025-01",
+        "charge":  140000,
+        "invoice":  145000
+    },
+    {
+        "mes":  "2025-02",
+        "charge":  145000,
+        "invoice":  150000
+    },
+    {
+        "mes":  "2025-03",
+        "charge":  150000,
+        "invoice":  155000
+    },
+    {
+        "mes":  "2025-04",
+        "charge":  155000,
+        "invoice":  160000
+    },
+    {
+        "mes":  "2025-05",
+        "charge":  160000,
+        "invoice":  165000
+    },
+    {
+        "mes":  "2025-06",
+        "charge":  165000,
+        "invoice":  170000
+    },
+    {
+        "mes":  "2025-07",
+        "charge":  170000,
+        "invoice":  175000
+    },
+    {
+        "mes":  "2025-08",
+        "charge":  175000,
+        "invoice":  180000
+    },
+    {
+        "mes":  "2025-09",
+        "charge":  180000,
+        "invoice":  185000
+    },
+    {
+        "mes":  "2025-10",
+        "charge":  185000,
+        "invoice":  190000
+    },
+    {
+        "mes":  "2025-11",
+        "charge":  190000,
+        "invoice":  195000
+    },
+    {
+        "mes":  "2025-12",
+        "charge":  195000,
+        "invoice":  200000
+    },
+    {
+        "mes":  "2026-01",
+        "charge":  200000,
+        "invoice":  205000
+    },
+    {
+        "mes":  "2026-02",
+        "charge":  205000,
+        "invoice":  210000
+    },
+    {
+        "mes":  "2026-03",
+        "charge":  210000,
+        "invoice":  215000
+    },
+    {
+        "mes":  "2026-04",
+        "charge":  215000,
+        "invoice":  220000
+    },
+    {
+        "mes":  "2026-05",
+        "charge":  220000,
+        "invoice":  225000
+    },
+    {
+        "mes":  "2026-06",
+        "charge":  225000,
+        "invoice":  230000
+    },
+    {
+        "mes":  "2026-07",
+        "charge":  230000,
+        "invoice":  235000
+    },
+    {
+        "mes":  "2026-08",
+        "charge":  235000,
+        "invoice":  240000
+    }
+];
+const cenariosDet = {
+    "conservador":  [
+                        {
+                            "ano":  2026,
+                            "receitaReconhecida":  3084250,
+                            "receitaEscondida":  180000,
+                            "receitaVerdadeira":  3264250,
+                            "margem":  1907086,
+                            "margemVerdadeira":  2087086,
+                            "totalPontos":  3469,
+                            "novos":  150
+                        },
+                        {
+                            "ano":  2027,
+                            "receitaReconhecida":  3305948,
+                            "receitaEscondida":  189000,
+                            "receitaVerdadeira":  3494948,
+                            "margem":  2121608,
+                            "margemVerdadeira":  2310608,
+                            "totalPontos":  3515,
+                            "novos":  150
+                        },
+                        {
+                            "ano":  2028,
+                            "receitaReconhecida":  3483925,
+                            "receitaEscondida":  198450,
+                            "receitaVerdadeira":  3682375,
+                            "margem":  2292565,
+                            "margemVerdadeira":  2491015,
+                            "totalPontos":  3560,
+                            "novos":  150
+                        },
+                        {
+                            "ano":  2029,
+                            "receitaReconhecida":  3778562,
+                            "receitaEscondida":  208372,
+                            "receitaVerdadeira":  3986935,
+                            "margem":  2580494,
+                            "margemVerdadeira":  2788867,
+                            "totalPontos":  3603,
+                            "novos":  150
+                        },
+                        {
+                            "ano":  2030,
+                            "receitaReconhecida":  3980462,
+                            "receitaEscondida":  218791,
+                            "receitaVerdadeira":  4199253,
+                            "margem":  2775842,
+                            "margemVerdadeira":  2994633,
+                            "totalPontos":  3645,
+                            "novos":  150
+                        }
+                    ],
+    "baseline":  [
+                     {
+                         "ano":  2026,
+                         "receitaReconhecida":  3186240,
+                         "receitaEscondida":  300000,
+                         "receitaVerdadeira":  3486240,
+                         "margem":  1993476,
+                         "margemVerdadeira":  2293476,
+                         "totalPontos":  3569,
+                         "novos":  250
+                     },
+                     {
+                         "ano":  2027,
+                         "receitaReconhecida":  3438240,
+                         "receitaEscondida":  315000,
+                         "receitaVerdadeira":  3753240,
+                         "margem":  2223168,
+                         "margemVerdadeira":  2538168,
+                         "totalPontos":  3712,
+                         "novos":  250
+                     },
+                     {
+                         "ano":  2028,
+                         "receitaReconhecida":  3702840,
+                         "receitaEscondida":  330750,
+                         "receitaVerdadeira":  4033590,
+                         "margem":  2466084,
+                         "margemVerdadeira":  2796834,
+                         "totalPontos":  3851,
+                         "novos":  250
+                     },
+                     {
+                         "ano":  2029,
+                         "receitaReconhecida":  4160618,
+                         "receitaEscondida":  347288,
+                         "receitaVerdadeira":  4507906,
+                         "margem":  2902958,
+                         "margemVerdadeira":  3250246,
+                         "totalPontos":  3985,
+                         "novos":  250
+                     },
+                     {
+                         "ano":  2030,
+                         "receitaReconhecida":  4466390,
+                         "receitaEscondida":  364652,
+                         "receitaVerdadeira":  4831042,
+                         "margem":  3188450,
+                         "margemVerdadeira":  3553102,
+                         "totalPontos":  4115,
+                         "novos":  250
+                     }
+                 ],
+    "otimista":  [
+                     {
+                         "ano":  2026,
+                         "receitaReconhecida":  3186240,
+                         "receitaEscondida":  480000,
+                         "receitaVerdadeira":  3666240,
+                         "margem":  1970076,
+                         "margemVerdadeira":  2450076,
+                         "totalPontos":  3719,
+                         "novos":  400
+                     },
+                     {
+                         "ano":  2027,
+                         "receitaReconhecida":  3589440,
+                         "receitaEscondida":  504000,
+                         "receitaVerdadeira":  4093440,
+                         "margem":  2328348,
+                         "margemVerdadeira":  2832348,
+                         "totalPontos":  4007,
+                         "novos":  400
+                     },
+                     {
+                         "ano":  2028,
+                         "receitaReconhecida":  4012800,
+                         "receitaEscondida":  529200,
+                         "receitaVerdadeira":  4542000,
+                         "margem":  2708028,
+                         "margemVerdadeira":  3237228,
+                         "totalPontos":  4287,
+                         "novos":  400
+                     },
+                     {
+                         "ano":  2029,
+                         "receitaReconhecida":  4637276,
+                         "receitaEscondida":  555660,
+                         "receitaVerdadeira":  5192936,
+                         "margem":  3290228,
+                         "margemVerdadeira":  3845888,
+                         "totalPontos":  4558,
+                         "novos":  400
+                     },
+                     {
+                         "ano":  2030,
+                         "receitaReconhecida":  5126744,
+                         "receitaEscondida":  583443,
+                         "receitaVerdadeira":  5710187,
+                         "margem":  3738668,
+                         "margemVerdadeira":  4322111,
+                         "totalPontos":  4821,
+                         "novos":  400
+                     }
+                 ]
+};
+
+function initCharts() {
+  // 1. Stripe Mensal: Charge vs Invoice
+  const meses = serieStripe.map(d => d.mes);
+  const charges = serieStripe.map(d => d.charge);
+  const invoices = serieStripe.map(d => d.invoice);
+  new Chart(document.getElementById('chart-stripe'), {
+    type: 'line',
+    data: {
+      labels: meses,
+      datasets: [
+        { label: 'Charge', data: charges, borderColor: 'var(--chart1)', backgroundColor: 'var(--chart1)', tension: 0.3, pointRadius: 2 },
+        { label: 'Invoice', data: invoices, borderColor: 'var(--chart2)', backgroundColor: 'var(--chart2)', tension: 0.3, pointRadius: 2 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + (v/1000).toFixed(0) + 'k' } } } }
+  });
+
+  // 2. Cenarios 5 anos: Receita Reconhecida
+  const anos = cenariosDet.baseline.map(d => d.ano);
+  new Chart(document.getElementById('chart-cenarios-receita'), {
+    type: 'bar',
+    data: {
+      labels: anos,
+      datasets: [
+        { label: 'Conservador', data: cenariosDet.conservador.map(d => d.receitaReconhecida), backgroundColor: 'var(--chart1)' },
+        { label: 'Base', data: cenariosDet.baseline.map(d => d.receitaReconhecida), backgroundColor: 'var(--chart2)' },
+        { label: 'Otimista', data: cenariosDet.otimista.map(d => d.receitaReconhecida), backgroundColor: 'var(--chart3)' }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { ticks: { callback: v => 'R$ ' + (v/1000000).toFixed(1) + 'M' } } } }
+  });
+
+  // 3. Receita Escondida vs Reconhecida (baseline)
+  new Chart(document.getElementById('chart-escondida'), {
+    type: 'bar',
+    data: {
+      labels: anos,
+      datasets: [
+        { label: 'Receita Reconhecida', data: cenariosDet.baseline.map(d => d.receitaReconhecida), backgroundColor: 'var(--chart1)' },
+        { label: 'Receita Escondida', data: cenariosDet.baseline.map(d => d.receitaEscondida), backgroundColor: 'var(--chart2)' },
+        { label: 'Receita Verdadeira', data: cenariosDet.baseline.map(d => d.receitaVerdadeira), backgroundColor: 'var(--chart3)', hidden: true }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { stacked: true, ticks: { callback: v => 'R$ ' + (v/1000000).toFixed(1) + 'M' } } } }
+  });
+
+  // 4. Margem: Reconhecida vs Verdadeira
+  new Chart(document.getElementById('chart-margem'), {
+    type: 'line',
+    data: {
+      labels: anos,
+      datasets: [
+        { label: 'Margem Reconhecida', data: cenariosDet.baseline.map(d => d.margem), borderColor: 'var(--chart1)', backgroundColor: 'var(--chart1)', tension: 0.3 },
+        { label: 'Margem Verdadeira', data: cenariosDet.baseline.map(d => d.margemVerdadeira), borderColor: 'var(--chart3)', backgroundColor: 'var(--chart3)', tension: 0.3 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { ticks: { callback: v => 'R$ ' + (v/1000000).toFixed(1) + 'M' } } } }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initCharts);
+</script>
+<script>
+// Motor de calculo inline (copia pura)
+function simular(p) {
+  const resultados = [];
+  let pontosAtivos = 3422;
+  const coortes = [];
+  for (let ano = 1; ano <= p.anos; ano++) {
+    const preco = p.anuidade * Math.pow(1.05, ano - 1);
+    const madura = Math.round(pontosAtivos * (1 - p.churn));
+    const maduraPacote = Math.round(madura * p.adocao);
+    const maduraRecorrente = madura - maduraPacote;
+    const novos = p.novos;
+    const novosPacote = (ano > 1) ? Math.round(novos * p.adocao) : 0;
+    const novosRecorrente = novos - novosPacote;
+    let caixaPacote = 0;
+    if (ano === 1 && maduraPacote > 0) {
+      caixaPacote = maduraPacote * preco * 3 * (1 - p.desconto);
+      coortes.push({ pts: maduraPacote, anoIni: ano, totalContrato: caixaPacote, precoUnit: preco });
+    }
+    if (ano >= 2 && novosPacote > 0) {
+      const caixaNovos = novosPacote * preco * 3 * (1 - p.desconto);
+      caixaPacote += caixaNovos;
+      coortes.push({ pts: novosPacote, anoIni: ano, totalContrato: caixaNovos, precoUnit: preco });
+    }
+    let receitaPacote = 0;
+    for (const c of coortes) {
+      const anosDecorridos = ano - c.anoIni;
+      if (anosDecorridos >= 0 && anosDecorridos < 3) { receitaPacote += c.totalContrato / 3; }
+    }
+    const recMadura = maduraRecorrente * preco * (1 - p.desconto) * (1 - p.inadimplencia);
+    const recNovos = (ano > 1) ? novosRecorrente * preco * (1 - p.desconto) * (1 - p.inadimplencia) : 0;
+    const receitaRecorrente = recMadura + recNovos;
+    const receitaReconhecida = receitaRecorrente + receitaPacote;
+    const receitaEscondida = novos * preco;
+    const receitaVerdadeira = receitaReconhecida + receitaEscondida;
+    const custoVarTotal = 96 + 60;
+    const custoVar = (madura + novos) * custoVarTotal;
+    const custoTotal = 600000 + custoVar + 36000;
+    const margem = receitaReconhecida - custoTotal;
+    const margemVerdadeira = receitaVerdadeira - custoTotal;
+    resultados.push({ ano: 2026 + ano - 1, totalPontos: madura + novos, receitaReconhecida, receitaEscondida, receitaVerdadeira, margem, margemVerdadeira });
+    pontosAtivos = madura + novos;
+  }
+  return resultados;
+}
+
+function fmt(v) { return v.toLocaleString('pt-BR', { maximumFractionDigits: 0 }); }
+
+function atualizarSimulador() {
+  const p = {
+    anuidade: parseFloat(document.getElementById('sim-anuidade').value),
+    novos: parseInt(document.getElementById('sim-novos').value),
+    churn: parseFloat(document.getElementById('sim-churn').value) / 100,
+    desconto: parseFloat(document.getElementById('sim-desconto').value) / 100,
+    inadimplencia: parseFloat(document.getElementById('sim-inadimplencia').value) / 100,
+    adocao: 1.0,
+    anos: parseInt(document.getElementById('sim-anos').value)
+  };
+  const resultados = simular(p);
+  const tbody = document.querySelector('#sim-tabela tbody');
+  tbody.innerHTML = resultados.map(r => 
+    '<tr><td>' + r.ano + '</td><td class="num">' + fmt(r.totalPontos) + '</td><td class="num">R$ ' + fmt(r.receitaReconhecida) + '</td><td class="num">R$ ' + fmt(r.receitaEscondida) + '</td><td class="num">R$ ' + fmt(r.receitaVerdadeira) + '</td><td class="num">R$ ' + fmt(r.margem) + '</td><td class="num">R$ ' + fmt(r.margemVerdadeira) + '</td></tr>'
+  ).join('');
+}
+
+document.querySelectorAll('.sim-grid input').forEach(input => {
+  input.addEventListener('input', atualizarSimulador);
+});
+atualizarSimulador();
+</script>
 </body>
 </html>

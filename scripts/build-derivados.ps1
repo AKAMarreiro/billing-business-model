@@ -204,6 +204,41 @@ $acumEscondida = 0
 foreach ($a in $cenarios.baseline.anos) { $acumEscondida += $a.receitaEscondida }
 $derivados['receitaEscondidaAcumuladaBase'] = [Math]::Round($acumEscondida, 0)
 
+# Dados para graficos no HTML
+$serieStripe = @()
+foreach ($linha in $csv) {
+    $serieStripe += [PSCustomObject]@{ mes = $linha.mes; charge = [decimal]$linha.charge; invoice = [decimal]$linha.invoice }
+}
+$derivados['serieStripe'] = $serieStripe
+
+$cenariosJson = @{
+    conservador = $cenarios.conservador.anos | ForEach-Object {
+        [PSCustomObject]@{
+            ano = $_.ano; receitaReconhecida = [Math]::Round($_.receitaReconhecida,0)
+            receitaEscondida = [Math]::Round($_.receitaEscondida,0); receitaVerdadeira = [Math]::Round($_.receitaVerdadeira,0)
+            margem = [Math]::Round($_.margem,0); margemVerdadeira = [Math]::Round($_.margemVerdadeira,0)
+            totalPontos = $_.totalPontos; novos = $_.novos
+        }
+    }
+    baseline = $cenarios.baseline.anos | ForEach-Object {
+        [PSCustomObject]@{
+            ano = $_.ano; receitaReconhecida = [Math]::Round($_.receitaReconhecida,0)
+            receitaEscondida = [Math]::Round($_.receitaEscondida,0); receitaVerdadeira = [Math]::Round($_.receitaVerdadeira,0)
+            margem = [Math]::Round($_.margem,0); margemVerdadeira = [Math]::Round($_.margemVerdadeira,0)
+            totalPontos = $_.totalPontos; novos = $_.novos
+        }
+    }
+    otimista = $cenarios.otimista.anos | ForEach-Object {
+        [PSCustomObject]@{
+            ano = $_.ano; receitaReconhecida = [Math]::Round($_.receitaReconhecida,0)
+            receitaEscondida = [Math]::Round($_.receitaEscondida,0); receitaVerdadeira = [Math]::Round($_.receitaVerdadeira,0)
+            margem = [Math]::Round($_.margem,0); margemVerdadeira = [Math]::Round($_.margemVerdadeira,0)
+            totalPontos = $_.totalPontos; novos = $_.novos
+        }
+    }
+}
+$derivados['cenariosDetalhado'] = $cenariosJson
+
 # Salvar
 if (-not (Test-Path "$Root\dist")) { New-Item -ItemType Directory -Path "$Root\dist" | Out-Null }
 $derivados | ConvertTo-Json -Depth 10 | Set-Content "$Root\dist\derivados.json" -Encoding UTF8

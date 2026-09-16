@@ -32,6 +32,213 @@
     "receitaEscondidaAcumuladaBase":  1657689,
     "churnAno":  0.03,
     "arpuAtual":  960,
+    "serieStripe":  [
+                        {
+                            "mes":  "2023-04",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-05",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-06",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-07",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-08",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-09",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-10",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-11",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2023-12",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2024-01",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2024-02",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2024-03",
+                            "charge":  0,
+                            "invoice":  0
+                        },
+                        {
+                            "mes":  "2024-04",
+                            "charge":  110000,
+                            "invoice":  160000
+                        },
+                        {
+                            "mes":  "2024-05",
+                            "charge":  120000,
+                            "invoice":  170000
+                        },
+                        {
+                            "mes":  "2024-06",
+                            "charge":  130000,
+                            "invoice":  180000
+                        },
+                        {
+                            "mes":  "2024-07",
+                            "charge":  140000,
+                            "invoice":  190000
+                        },
+                        {
+                            "mes":  "2024-08",
+                            "charge":  150000,
+                            "invoice":  200000
+                        },
+                        {
+                            "mes":  "2024-09",
+                            "charge":  160000,
+                            "invoice":  210000
+                        },
+                        {
+                            "mes":  "2024-10",
+                            "charge":  160000,
+                            "invoice":  901000
+                        },
+                        {
+                            "mes":  "2024-11",
+                            "charge":  406000,
+                            "invoice":  120000
+                        },
+                        {
+                            "mes":  "2024-12",
+                            "charge":  120000,
+                            "invoice":  130000
+                        },
+                        {
+                            "mes":  "2025-01",
+                            "charge":  140000,
+                            "invoice":  145000
+                        },
+                        {
+                            "mes":  "2025-02",
+                            "charge":  145000,
+                            "invoice":  150000
+                        },
+                        {
+                            "mes":  "2025-03",
+                            "charge":  150000,
+                            "invoice":  155000
+                        },
+                        {
+                            "mes":  "2025-04",
+                            "charge":  155000,
+                            "invoice":  160000
+                        },
+                        {
+                            "mes":  "2025-05",
+                            "charge":  160000,
+                            "invoice":  165000
+                        },
+                        {
+                            "mes":  "2025-06",
+                            "charge":  165000,
+                            "invoice":  170000
+                        },
+                        {
+                            "mes":  "2025-07",
+                            "charge":  170000,
+                            "invoice":  175000
+                        },
+                        {
+                            "mes":  "2025-08",
+                            "charge":  175000,
+                            "invoice":  180000
+                        },
+                        {
+                            "mes":  "2025-09",
+                            "charge":  180000,
+                            "invoice":  185000
+                        },
+                        {
+                            "mes":  "2025-10",
+                            "charge":  185000,
+                            "invoice":  190000
+                        },
+                        {
+                            "mes":  "2025-11",
+                            "charge":  190000,
+                            "invoice":  195000
+                        },
+                        {
+                            "mes":  "2025-12",
+                            "charge":  195000,
+                            "invoice":  200000
+                        },
+                        {
+                            "mes":  "2026-01",
+                            "charge":  200000,
+                            "invoice":  205000
+                        },
+                        {
+                            "mes":  "2026-02",
+                            "charge":  205000,
+                            "invoice":  210000
+                        },
+                        {
+                            "mes":  "2026-03",
+                            "charge":  210000,
+                            "invoice":  215000
+                        },
+                        {
+                            "mes":  "2026-04",
+                            "charge":  215000,
+                            "invoice":  220000
+                        },
+                        {
+                            "mes":  "2026-05",
+                            "charge":  220000,
+                            "invoice":  225000
+                        },
+                        {
+                            "mes":  "2026-06",
+                            "charge":  225000,
+                            "invoice":  230000
+                        },
+                        {
+                            "mes":  "2026-07",
+                            "charge":  230000,
+                            "invoice":  235000
+                        },
+                        {
+                            "mes":  "2026-08",
+                            "charge":  235000,
+                            "invoice":  240000
+                        }
+                    ],
     "margemC2030":  3738668,
     "receitaC2030":  5126744,
     "margemA2030":  2775842,
@@ -44,6 +251,164 @@
     "cambioUSDBRL":  5.70,
     "arpuNovo":  1320,
     "totalIrripump":  803,
+    "cenariosDetalhado":  {
+                              "conservador":  [
+                                                  {
+                                                      "ano":  2026,
+                                                      "receitaReconhecida":  3084250,
+                                                      "receitaEscondida":  180000,
+                                                      "receitaVerdadeira":  3264250,
+                                                      "margem":  1907086,
+                                                      "margemVerdadeira":  2087086,
+                                                      "totalPontos":  3469,
+                                                      "novos":  150
+                                                  },
+                                                  {
+                                                      "ano":  2027,
+                                                      "receitaReconhecida":  3305948,
+                                                      "receitaEscondida":  189000,
+                                                      "receitaVerdadeira":  3494948,
+                                                      "margem":  2121608,
+                                                      "margemVerdadeira":  2310608,
+                                                      "totalPontos":  3515,
+                                                      "novos":  150
+                                                  },
+                                                  {
+                                                      "ano":  2028,
+                                                      "receitaReconhecida":  3483925,
+                                                      "receitaEscondida":  198450,
+                                                      "receitaVerdadeira":  3682375,
+                                                      "margem":  2292565,
+                                                      "margemVerdadeira":  2491015,
+                                                      "totalPontos":  3560,
+                                                      "novos":  150
+                                                  },
+                                                  {
+                                                      "ano":  2029,
+                                                      "receitaReconhecida":  3778562,
+                                                      "receitaEscondida":  208372,
+                                                      "receitaVerdadeira":  3986935,
+                                                      "margem":  2580494,
+                                                      "margemVerdadeira":  2788867,
+                                                      "totalPontos":  3603,
+                                                      "novos":  150
+                                                  },
+                                                  {
+                                                      "ano":  2030,
+                                                      "receitaReconhecida":  3980462,
+                                                      "receitaEscondida":  218791,
+                                                      "receitaVerdadeira":  4199253,
+                                                      "margem":  2775842,
+                                                      "margemVerdadeira":  2994633,
+                                                      "totalPontos":  3645,
+                                                      "novos":  150
+                                                  }
+                                              ],
+                              "baseline":  [
+                                               {
+                                                   "ano":  2026,
+                                                   "receitaReconhecida":  3186240,
+                                                   "receitaEscondida":  300000,
+                                                   "receitaVerdadeira":  3486240,
+                                                   "margem":  1993476,
+                                                   "margemVerdadeira":  2293476,
+                                                   "totalPontos":  3569,
+                                                   "novos":  250
+                                               },
+                                               {
+                                                   "ano":  2027,
+                                                   "receitaReconhecida":  3438240,
+                                                   "receitaEscondida":  315000,
+                                                   "receitaVerdadeira":  3753240,
+                                                   "margem":  2223168,
+                                                   "margemVerdadeira":  2538168,
+                                                   "totalPontos":  3712,
+                                                   "novos":  250
+                                               },
+                                               {
+                                                   "ano":  2028,
+                                                   "receitaReconhecida":  3702840,
+                                                   "receitaEscondida":  330750,
+                                                   "receitaVerdadeira":  4033590,
+                                                   "margem":  2466084,
+                                                   "margemVerdadeira":  2796834,
+                                                   "totalPontos":  3851,
+                                                   "novos":  250
+                                               },
+                                               {
+                                                   "ano":  2029,
+                                                   "receitaReconhecida":  4160618,
+                                                   "receitaEscondida":  347288,
+                                                   "receitaVerdadeira":  4507906,
+                                                   "margem":  2902958,
+                                                   "margemVerdadeira":  3250246,
+                                                   "totalPontos":  3985,
+                                                   "novos":  250
+                                               },
+                                               {
+                                                   "ano":  2030,
+                                                   "receitaReconhecida":  4466390,
+                                                   "receitaEscondida":  364652,
+                                                   "receitaVerdadeira":  4831042,
+                                                   "margem":  3188450,
+                                                   "margemVerdadeira":  3553102,
+                                                   "totalPontos":  4115,
+                                                   "novos":  250
+                                               }
+                                           ],
+                              "otimista":  [
+                                               {
+                                                   "ano":  2026,
+                                                   "receitaReconhecida":  3186240,
+                                                   "receitaEscondida":  480000,
+                                                   "receitaVerdadeira":  3666240,
+                                                   "margem":  1970076,
+                                                   "margemVerdadeira":  2450076,
+                                                   "totalPontos":  3719,
+                                                   "novos":  400
+                                               },
+                                               {
+                                                   "ano":  2027,
+                                                   "receitaReconhecida":  3589440,
+                                                   "receitaEscondida":  504000,
+                                                   "receitaVerdadeira":  4093440,
+                                                   "margem":  2328348,
+                                                   "margemVerdadeira":  2832348,
+                                                   "totalPontos":  4007,
+                                                   "novos":  400
+                                               },
+                                               {
+                                                   "ano":  2028,
+                                                   "receitaReconhecida":  4012800,
+                                                   "receitaEscondida":  529200,
+                                                   "receitaVerdadeira":  4542000,
+                                                   "margem":  2708028,
+                                                   "margemVerdadeira":  3237228,
+                                                   "totalPontos":  4287,
+                                                   "novos":  400
+                                               },
+                                               {
+                                                   "ano":  2029,
+                                                   "receitaReconhecida":  4637276,
+                                                   "receitaEscondida":  555660,
+                                                   "receitaVerdadeira":  5192936,
+                                                   "margem":  3290228,
+                                                   "margemVerdadeira":  3845888,
+                                                   "totalPontos":  4558,
+                                                   "novos":  400
+                                               },
+                                               {
+                                                   "ano":  2030,
+                                                   "receitaReconhecida":  5126744,
+                                                   "receitaEscondida":  583443,
+                                                   "receitaVerdadeira":  5710187,
+                                                   "margem":  3738668,
+                                                   "margemVerdadeira":  4322111,
+                                                   "totalPontos":  4821,
+                                                   "novos":  400
+                                               }
+                                           ]
+                          },
     "precoNovoProduto":  600,
     "spreadDiretoDealer":  116,
     "totalPivos":  3847,
