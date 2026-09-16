@@ -1,0 +1,19 @@
+{
+  "anoBase": 2026,
+  "anuidadeRef": 1200,
+  "precoTabelaSaaS": 1800,
+  "precoAlvoSaaS": 1200,
+  "novosEntrantesAno": 250,
+  "churnAno": 0.03,
+  "reajusteAno": 0.05,
+  "inadimplencia": 0.08,
+  "descontoPacote": 0.20,
+  "anosPacote": 3,
+  "adocaoPacoteMadura": 1.00,
+  "adocaoPacoteNovos": 1.00,
+  "custoFixoPlataforma": 600000,
+  "custoVarPontoInfra": 96,
+  "custoVarPontoSuporte": 60,
+  "custoOperacaoBilling": 36000,
+  "cambioUSDBRL": 5.70
+}

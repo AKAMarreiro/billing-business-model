@@ -1,0 +1,17 @@
+{
+  "clienteDireto": [
+    {"tier": "1-10", "ano1": 220, "ano2ef": 195, "ano3ef": 170},
+    {"tier": "11-20", "ano1": 209, "ano2ef": 185, "ano3ef": 162},
+    {"tier": "21-30", "ano1": 196, "ano2ef": 174, "ano3ef": 151},
+    {"tier": "31-40", "ano1": 183, "ano2ef": 162, "ano3ef": 141},
+    {"tier": "41-50", "ano1": 167, "ano2ef": 148, "ano3ef": 129}
+  ],
+  "dealerRevendedor": [
+    {"tier": "1-10", "ano1": 104, "ano2ef": 99, "ano3ef": 93},
+    {"tier": "11-20", "ano1": 102, "ano2ef": 97, "ano3ef": 91},
+    {"tier": "21-30", "ano1": 99, "ano2ef": 94, "ano3ef": 88},
+    {"tier": "31-40", "ano1": 96, "ano2ef": 91, "ano3ef": 85},
+    {"tier": "41-50", "ano1": 92, "ano2ef": 87, "ano3ef": 82}
+  ],
+  "safSystem": {"preco": 385, "observacao": "Cobrado direto pela Irricontrol com repasse a parceiros"}
+}
