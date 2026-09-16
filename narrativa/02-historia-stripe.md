@@ -4,10 +4,12 @@ A operação de assinatura da Irricontrol começou em abril de 2023 com o primei
 
 A atividade mínima se estendeu até março de 2024. A inflexão veio em abril de 2024, com {{chargeAbr2024}} de charge e {{invoiceAbr2024}} de invoice — o primeiro mês em que a operação real começou a se materializar.
 
-O evento mais narrativamente importante foi outubro de 2024: {{invoiceOut2024}} de invoice num único mês, com apenas {{chargeOut2024}} de charge. A diferença não é inadimplência — é a natureza plurianual dos pacotes. Em outubro de 2024, o comercial fechou pacotes multianuais antecipados. O invoice reconheceu todo o valor do contrato; o charge refletiu apenas a parcela daquele mês. Em novembro de 2024, o charge subiu para {{chargeNov2024}}, liquidando as parcelas restantes.
+O evento mais narrativamente importante foi outubro de 2024: {{invoiceOut2024}} de invoice num único mês, com apenas {{chargeOut2024}} de charge. Parte dessa diferença vem de pacotes plurianuais antecipados — o invoice reconhece todo o valor do contrato, o charge reflete a parcela. Mas a maior parte da distância entre invoice e charge ao longo de toda a série não é contábil: é operacional.
 
-A estabilização de 2025 mostra uma operação que encontrou ritmo: {{charge2025}} de charge ao ano, {{invoice2025}} de invoice. A diferença entre invoice e charge, persistente ao longo do ano, é o efeito contábil dos pacotes — não é perda.
+A operação de cobrança hoje é manual. O administrador e o time de vendas emitem múltiplos invoices pelo mesmo cliente: a fatura original, a segunda via com desconto negociado, a terceira via com prazo estendido, a quarta via após o cliente alegar que não recebeu. Cliente não paga no prazo — emite outra. Cliente pede desconto — emite outra com valor diferente. O invoice sobe; o charge não acompanha. A distância entre os dois não é natureza do produto, é fricção do processo.
 
-O parcial de 2026 (janeiro a agosto) já acumula {{charge2026}} de charge e {{invoice2026}} de invoice. A trajetória é de crescimento, mas o crescimento é limitado pela estrutura atual de cobrança.
+A estabilização de 2025 mostra {{charge2025}} de charge ao ano contra {{invoice2025}} de invoice. A diferença persistente não deve ser lida como risco de crédito. É o acúmulo de reemissoes, ajustes e negociações que nunca foram consolidados em um único invoice correto.
 
-O ponto analítico central: a distância entre invoice e charge não deve ser lida como risco de crédito. É o resultado natural de um modelo em que parte da receita é antecipada em contratos plurianuais. Quem olha apenas o charge subestima a saúde da operação; quem olha apenas o invoice subestima o gap de caixa.
+O parcial de 2026 (janeiro a agosto) acumula {{charge2026}} de charge e {{invoice2026}} de invoice. A trajetória é de crescimento, mas o crescimento é limitado pela estrutura atual de cobrança — não pelo mercado.
+
+O ponto analítico central: a distância entre invoice e charge é, em grande parte, um indicador de ineficiência operacional. Quem olha apenas o charge subestima a saúde da operação; quem olha apenas o invoice subestima o gap real de caixa. O número que importa é o charge — o que efetivamente entrou no banco.
