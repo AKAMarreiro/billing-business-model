@@ -146,12 +146,20 @@ function calcularReceitaReconhecida(premissas, config) {
 
     const receitaReconhecida = receitaRecorrente + receitaPacote;
 
+    // RECEITA ESCONDIDA: primeiro ano de novos entrantes está embutido no hardware
+    // Não aparece em nota de serviço, mas é um valor real que deveria ser reconhecido
+    const receitaEscondida = novos * preco;
+
     // Custos
     const totalPontos = madura + novos;
     const custo = calcularCusto(premissas, totalPontos, ano);
 
     const margem = receitaReconhecida - custo.custoTotal;
     const margemPct = receitaReconhecida > 0 ? (margem / receitaReconhecida) : 0;
+
+    const receitaVerdadeira = receitaReconhecida + receitaEscondida;
+    const margemVerdadeira = receitaVerdadeira - custo.custoTotal;
+    const margemVerdadeiraPct = receitaVerdadeira > 0 ? (margemVerdadeira / receitaVerdadeira) : 0;
 
     resultados.push({
       ano: premissas.anoBase + ano - 1,
@@ -167,9 +175,13 @@ function calcularReceitaReconhecida(premissas, config) {
       receitaRecorrente,
       receitaPacote,
       receitaReconhecida,
+      receitaEscondida,
+      receitaVerdadeira,
       custoTotal: custo.custoTotal,
       margem,
-      margemPct
+      margemPct,
+      margemVerdadeira,
+      margemVerdadeiraPct
     });
 
     pontosAtivos = madura + novos;

@@ -81,9 +81,12 @@ assert('Margem contábil 2026', ano2026.margem, 3085308, 1);
 // 3. Asserções estruturais
 console.log('\n3. Asserções estruturais:');
 
-// Primeiro ano grátis: novos entrantes do ano 1 não geram receita
+// Primeiro ano grátis: novos entrantes do ano 1 não geram receita reconhecida
 const primeiroAno = resultado.anos[0];
 assertEquals('Primeiro ano: novos entrantes não geram receita recorrente', primeiroAno.novosRecorrente === 0 && primeiroAno.novosPacote === 0, true);
+assert('Primeiro ano: receita escondida = novos * preco', primeiroAno.receitaEscondida, primeiroAno.novos * primeiroAno.preco, 0.01);
+assert('Primeiro ano: receita verdadeira = reconhecida + escondida', primeiroAno.receitaVerdadeira, primeiroAno.receitaReconhecida + primeiroAno.receitaEscondida, 0.01);
+assertEquals('Primeiro ano: margem verdadeira > margem reconhecida', primeiroAno.margemVerdadeira > primeiroAno.margem, true);
 
 // Nenhum ano com receita zero (exceto se primeiroAnoGratis=true e baseInicial=0 — não é o caso)
 const anosComReceitaZero = resultado.anos.filter(a => a.receitaReconhecida === 0);
