@@ -19,7 +19,9 @@ function calcularEscopoPotencial($premissas, $base) {
     $totalMedidor = $base.medidorNivel
     $totalEscopo = $totalPivos + $totalIrripump + $totalMedidor
     $potencialHistorico = $totalPivos * $premissas.anuidadeRef
-    $potencialCompleto = $totalEscopo * $premissas.anuidadeRef
+    $potencialIrripump = $totalIrripump * $premissas.anuidadeIrripump
+    $potencialMedidor = $totalMedidor * $premissas.anuidadeMedidorNivel
+    $potencialCompleto = $potencialHistorico + $potencialIrripump + $potencialMedidor
     $receitaRecorrenteHoje = $base.pontosPagantes * $premissas.anuidadeRef * (1 - $premissas.inadimplencia)
     $gapCompleto = $potencialCompleto - $receitaRecorrenteHoje
     $realizacaoHistorico = ($base.pontosPagantes * $premissas.anuidadeRef) / $potencialHistorico
@@ -27,7 +29,9 @@ function calcularEscopoPotencial($premissas, $base) {
     return @{
         totalPivos = $totalPivos; totalIrripump = $totalIrripump
         totalMedidor = $totalMedidor; totalEscopo = $totalEscopo
+        potencialIrripump = $potencialIrripump; potencialMedidor = $potencialMedidor
         potencialHistorico = $potencialHistorico; potencialCompleto = $potencialCompleto
+        precoMedioEscopo = $potencialCompleto / $totalEscopo
         receitaRecorrenteHoje = $receitaRecorrenteHoje; gapCompleto = $gapCompleto
         realizacaoHistorico = $realizacaoHistorico; realizacaoCompleto = $realizacaoCompleto
         fazendas = $base.fazendas; usuariosAtivos = $base.usuariosAtivos
@@ -36,10 +40,11 @@ function calcularEscopoPotencial($premissas, $base) {
 }
 
 function calcularCusto($premissas, $totalPontos, $ano = 1) {
+    $fatorInflacao = [Math]::Pow(1 + $premissas.inflacaoCustosAno, $ano - 1)
     $custoVarTotal = $premissas.custoVarPontoInfra + $premissas.custoVarPontoSuporte
-    $custoVar = $totalPontos * $custoVarTotal
-    $custoFixo = $premissas.custoFixoPlataforma
-    $custoOperacao = $premissas.custoOperacaoBilling
+    $custoVar = $totalPontos * $custoVarTotal * $fatorInflacao
+    $custoFixo = $premissas.custoFixoPlataforma * $fatorInflacao
+    $custoOperacao = $premissas.custoOperacaoBilling * $fatorInflacao
     return @{ custoFixo = $custoFixo; custoVar = $custoVar; custoOperacao = $custoOperacao; custoTotal = $custoFixo + $custoVar + $custoOperacao }
 }
 
@@ -139,10 +144,19 @@ $pricingComp = calcularPricingComparado $premissas $pricing
 $cenarios = calcularProjecaoCenarios $premissas $base
 
 # Serie Stripe (CSV)
-$csv = Import-Csv "$Root\dados\stripe-mensal.csv" -Header @('mes','charge','invoice') | Select-Object -Skip 1
+$csv = Import-Csv "$Root\dados\stripe-mensal.csv" | ForEach-Object {
+    [PSCustomObject]@{
+        mes = $_.month
+        charge = $_.charge
+        invoice = $_.invoice
+    }
+}
 $stripeAnual = @{}
+$stripeMensal = @{}
 foreach ($linha in $csv) {
+    if ([string]::IsNullOrWhiteSpace($linha.mes)) { continue }
     $ano = ($linha.mes -split '-')[0]
+    $stripeMensal[$linha.mes] = $linha
     if (-not $stripeAnual[$ano]) { $stripeAnual[$ano] = @{ charge = 0; invoice = 0 } }
     if ($linha.charge -ne '' -and $linha.charge -ne 'null') { $stripeAnual[$ano].charge += [decimal]$linha.charge }
     if ($linha.invoice -ne '' -and $linha.invoice -ne 'null') { $stripeAnual[$ano].invoice += [decimal]$linha.invoice }
@@ -153,17 +167,21 @@ $derivados = @{
     totalPivos = $escopo.totalPivos; totalIrripump = $escopo.totalIrripump; totalMedidor = $escopo.totalMedidor
     totalEscopo = $escopo.totalEscopo; fazendas = $escopo.fazendas; usuariosAtivos = $escopo.usuariosAtivos
     pontosPagantes = $escopo.pontosPagantes; dataCorte = $escopo.dataCorte
+    potencialIrripump = $escopo.potencialIrripump; potencialMedidor = $escopo.potencialMedidor
     potencialHistorico = $escopo.potencialHistorico; potencialCompleto = $escopo.potencialCompleto
+    precoMedioEscopo = [Math]::Round($escopo.precoMedioEscopo, 2)
     receitaRecorrenteHoje = $escopo.receitaRecorrenteHoje; gapCompleto = $escopo.gapCompleto
     realizacaoHistorico = [Math]::Round($escopo.realizacaoHistorico * 100, 2)
     realizacaoCompleto = [Math]::Round($escopo.realizacaoCompleto * 100, 2)
     chargeAbr2024 = $stripeAnual['2024'].charge; invoiceAbr2024 = $stripeAnual['2024'].invoice
-    invoiceOut2024 = $stripeAnual['2024'].invoice; chargeOut2024 = $stripeAnual['2024'].charge
+    invoiceOut2024 = [decimal]$stripeMensal['2024-10'].invoice; chargeOut2024 = [decimal]$stripeMensal['2024-10'].charge
     charge2025 = $stripeAnual['2025'].charge; invoice2025 = $stripeAnual['2025'].invoice
     charge2026 = $stripeAnual['2026'].charge; invoice2026 = $stripeAnual['2026'].invoice
-    receita2025 = $stripeAnual['2025'].invoice
-    realizacao2025 = [Math]::Round(($stripeAnual['2025'].charge / $escopo.potencialCompleto) * 100, 2)
-    anuidadeRef = $premissas.anuidadeRef; precoTabelaSaaS = $premissas.precoTabelaSaaS
+    receita2025 = $stripeAnual['2025'].charge
+    realizacao2025 = [Math]::Round(($stripeAnual['2025'].charge / $escopo.potencialHistorico) * 100, 2)
+    gapHistorico = $escopo.potencialHistorico - $stripeAnual['2025'].charge
+    anuidadeRef = $premissas.anuidadeRef; anuidadeIrripump = $premissas.anuidadeIrripump
+    anuidadeMedidorNivel = $premissas.anuidadeMedidorNivel; precoTabelaSaaS = $premissas.precoTabelaSaaS
     precoAlvoSaaS = $premissas.precoAlvoSaaS; cambioUSDBRL = $premissas.cambioUSDBRL
     precoUSD = [Math]::Round($pricingComp.precoUSD, 2)
     tierCorrespondente = if ($pricingComp.tierCorrespondente) { $pricingComp.tierCorrespondente.tier } else { 'N/A' }
@@ -197,6 +215,12 @@ $derivados = @{
     receitaPropria = [Math]::Round($stripeAnual['2025'].charge * 0.7, 0)
     passThrough = [Math]::Round($stripeAnual['2025'].charge * 0.3, 0)
     arpuFazenda = [Math]::Round($base.pontosPagantes * $premissas.anuidadeRef / $base.fazendas, 0)
+    invoiceAgo2023 = [decimal]$stripeMensal['2023-08'].invoice
+    chargeQ12024 = (($csv | Where-Object { $_.mes -in @('2024-01','2024-02','2024-03') } | Measure-Object -Property charge -Sum).Sum)
+    chargeMai2024 = [decimal]$stripeMensal['2024-05'].charge
+    invoiceMai2024 = [decimal]$stripeMensal['2024-05'].invoice
+    gapOut2024 = [decimal]$stripeMensal['2024-10'].invoice - [decimal]$stripeMensal['2024-10'].charge
+    diferenca2025 = $stripeAnual['2025'].invoice - $stripeAnual['2025'].charge
 }
 
 # Adicionar campo calculado apos hashtable

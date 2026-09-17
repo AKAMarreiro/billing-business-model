@@ -4,7 +4,7 @@ Este documento é construído sobre os dados que existem hoje. O que falta levan
 
 **Split cortesia contra pagante.** Quantos dos {{pontosPagantes}} pontos pagantes estão em algum tipo de bonificação? Por quanto tempo? Com que data de término? Sem esse split, o gap de {{gapCompleto}} não pode ser decomposto com precisão.
 
-**Breakdown dos contratos plurianuais.** Quantos pacotes de 3 anos existem? Quando vencem? Qual a distribuição por cliente? O impacto no caixa de 2027, 2028 e 2029 depende dessas datas.
+**Breakdown dos contratos plurianuais.** Quantos pacotes no prazo padrão existem? Quando vencem? Qual a distribuição por cliente? O impacto no caixa dos anos seguintes depende dessas datas.
 
 **Custo operacional real do comercial.** Quantos FTEs dedicados a retenção? Qual o custo total de salário, comissão e estrutura? Sem isso, não é possível calcular se a retenção manual se paga.
 
@@ -12,7 +12,7 @@ Este documento é construído sobre os dados que existem hoje. O que falta levan
 
 **Clientes internacionais por canal.** Quantos clientes diretos? Quantos via dealer? Qual o ARPU médio de cada canal? A decisão de estrutura de canal depende dessa comparação.
 
-**ARPU por fazenda.** O total de {{fazendas}} fazendas com {{pontosPagantes}} pontos pagantes dá uma média de {{arpuFazenda}} por fazenda. Mas a distribuição não é uniforme: quantas fazendas têm 1-5 pivôs, quantas têm 20+? A decisão de tier de preço depende dessa distribuição.
+**ARPU por fazenda.** O total de {{fazendas}} fazendas com {{pontosPagantes}} pontos pagantes dá uma média de {{arpuFazenda}} por fazenda. Mas a distribuição não é uniforme: quantas fazendas estão nas faixas pequenas e quantas concentram muitos pivôs? A decisão de tier de preço depende dessa distribuição.
 
 **Distribuição de tamanho de fazenda.** Área média por fazenda, irrigada e não-irrigada. Isso afeta o potencial do produto de manejo hídrico.
 

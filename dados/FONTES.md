@@ -8,11 +8,14 @@ Este documento registra a origem e data de cada valor em `dados/`.
 |-------|-------|--------|------|
 | `anoBase` | 2026 | Decisão comercial: exercício de transição para SaaS puro | Set/2026 |
 | `anuidadeRef` | R$ 1.200 | Modelo financeiro oficial, validado com board do Grupo Bauer | Ago/2026 |
+| `anuidadeIrripump` | R$ 800 | Premissa comercial informada pelo usuário para o escopo prospectivo | Set/2026 |
+| `anuidadeMedidorNivel` | R$ 800 | Premissa comercial informada pelo usuário para o escopo prospectivo | Set/2026 |
 | `precoTabelaSaaS` | R$ 1.800 | Preço de tabela no boleto, sem desconto | Ago/2026 |
 | `precoAlvoSaaS` | R$ 1.200 | Preço condicionado a cartão com cobrança automática Stripe | Ago/2026 |
 | `novosEntrantesAno` | 250 | Projeção comercial baseada em média histórica de vendas | Ago/2026 |
 | `churnAno` | 3% | Base histórica do portfolio (média 2023-2025) | Ago/2026 |
 | `reajusteAno` | 5% | Índice de reajuste do modelo financeiro oficial | Ago/2026 |
+| `inflacaoCustosAno` | 5% | Premissa do modelo para inflação anual de custos | Set/2026 |
 | `inadimplencia` | 8% | Taxa média observada no Stripe (2024-2025) | Ago/2026 |
 | `descontoPacote` | 20% | Desconto médio praticado em pacotes plurianuais | Ago/2026 |
 | `anosPacote` | 3 | Duração padrão do pacote plurianual | Ago/2026 |
@@ -22,7 +25,7 @@ Este documento registra a origem e data de cada valor em `dados/`.
 | `primeiroAnoGratis` | true | Novos entrantes não geram receita no ano de entrada (cortesia/piloto) | Set/2026 |
 | `novosEntrantesConservador` | 150 | Cenário conservador: poucos novos entrantes por ano | Set/2026 |
 | `novosEntrantesOtimista` | 400 | Cenário otimista: mais novos entrantes por ano, pressupõe estrutura automatizada | Set/2026 |
-| `precoNovoProduto` | R$ 600/device/ano | Preço referência para monitoramento e manejo de pivôs | Set/2026 |
+| `precoNovoProduto` | R$ 300/device/ano | Preço de lançamento por produto de monitoramento ou manejo, conforme contrato do pipeline | Set/2026 |
 | `adocaoNovoProduto` | 30% | Taxa esperada de adoção de novos produtos pela base existente | Set/2026 |
 | `custoFixoPlataforma` | R$ 600.000/ano | Modelo financeiro oficial (infraestrutura cloud + time técnico) | Ago/2026 |
 | `custoVarPontoInfra` | R$ 96/ano/ponto | Custo de nuvem AWS + conectividade por dispositivo | Ago/2026 |

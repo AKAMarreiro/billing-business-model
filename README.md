@@ -7,9 +7,9 @@ Pipeline de build para analise do modelo de receita de assinatura.
 - `dados/` — Dados brutos: premissas, base de dispositivos, Stripe, pricing global. **Nenhum numero derivado**.
 - `motor/` — Funcoes puras de calculo. **Zero I/O**. Consumido por Node e browser (ESM).
 - `narrativa/` — Texto em Markdown com placeholders `{{chave}}`. **Nenhum numero hardcoded**.
-- `render/` — Scripts de build (reservado para futuro).
+- `render/` — Builds oficiais: derivados em Node, HTML em Node e XLSX em Python.
 - `dist/` — Artefatos gerados (HTML, JSON). **Versionado, nunca editado a mao**.
-- `scripts/` — Build scripts em PowerShell + verificadores.
+- `scripts/` — Verificador executável e compatibilidade PowerShell legada.
 
 ## Regras
 
@@ -20,15 +20,19 @@ Pipeline de build para analise do modelo de receita de assinatura.
 
 ## Build
 
-Como nao ha Node/Python instalado, o build usa PowerShell puro:
+O pipeline oficial usa Node e Python:
 
 ```powershell
-# Build completo (derivados + HTML)
+npm test
+npm run verificar
+npm run build
+```
+
+Durante a transicao, o build PowerShell continua disponivel:
+
+```powershell
 & "scripts/build-all.ps1"
 
-# Ou passo a passo:
-& "scripts/build-derivados.ps1"   # dados + motor PowerShell -> dist/derivados.json
-& "scripts/build-html.ps1"         # derivados + narrativa -> dist/index.html
 ```
 
 ## Contrato de cada camada
@@ -49,7 +53,9 @@ Como nao ha Node/Python instalado, o build usa PowerShell puro:
 - Excecoes: anos (2024), protocolo de 14 dias.
 
 ### render/
-- Reservado para futuro (XLSX, visualizacao interativa).
+- `build-derivados.js` le dados, chama o motor e grava `dist/derivados.json`.
+- `build-html.js` resolve a narrativa e gera um HTML autonomo com SVG e simulador.
+- `build-xlsx.py` gera `dist/modelo.xlsx` sem recalcular indicadores.
 
 ### dist/
 - Versionado no Git. Mas nunca editado a mao.
@@ -69,3 +75,9 @@ Mas `dist/` nunca e editado a mao — e sempre gerado a partir das tres camadas 
 ## Status
 
 Em construcao. Siga as etapas do contrato na ordem definida.
+
+## Decisoes vigentes
+
+- Pivos usam anuidade de R$1.200; Irripump e medidor de nivel usam R$800.
+- A visao historica considera apenas pivos. A visao prospectiva inclui os tres produtos e seus precos proprios.
+- `dist/` e versionado e nunca deve ser editado manualmente.

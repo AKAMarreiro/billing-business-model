@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "verificar": "node scripts/verificar.js",
-    "build": "node render/build-derivados.js && node render/build-html.js && python render/build-xlsx.py",
+    "build": "npm test && node render/build-derivados.js && node render/build-html.js && python render/build-xlsx.py",
     "test": "node motor/calculo.test.js"
   },
   "keywords": ["receita", "assinatura", "saaS", "agronegócio", "pipeline"],

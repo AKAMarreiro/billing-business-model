@@ -13,11 +13,12 @@ $pricing = Get-Content "$Root\dados\pricing-global.json" -Raw -Encoding UTF8 | C
 $derivados = Get-Content "$Root\dist\derivados.json" -Raw -Encoding UTF8 | ConvertFrom-Json
 
 # Carregar serie Stripe
-$csv = Import-Csv "$Root\dados\stripe-mensal.csv" -Header @('mes','charge','invoice') | Select-Object -Skip 1
+$csv = Import-Csv "$Root\dados\stripe-mensal.csv"
 $stripeMensal = @()
 foreach ($linha in $csv) {
+    if ([string]::IsNullOrWhiteSpace($linha.month)) { continue }
     $stripeMensal += [PSCustomObject]@{
-        Mes = $linha.mes
+        Mes = $linha.month
         Charge = if ($linha.charge -ne '' -and $linha.charge -ne 'null') { [decimal]$linha.charge } else { $null }
         Invoice = if ($linha.invoice -ne '' -and $linha.invoice -ne 'null') { [decimal]$linha.invoice } else { $null }
     }

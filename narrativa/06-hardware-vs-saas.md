@@ -4,7 +4,7 @@ A Irricontrol nasceu como empresa de hardware. O pivô conectado, o painel de co
 
 O desconto comercial era tolerável porque a retenção estava garantida pela âncora. Mesmo com {{descontoPacote}} de desconto no pacote, o cliente permanecia porque o hardware permanecia.
 
-Monitoramento e manejo de pivôs são diferentes. São 100% software. Não há dispositivo físico, não há instalação, não há investimento irrecuperável. Quem cancela não perde nada material — apenas deixa de acessar uma plataforma.
+Monitoramento e manejo de pivôs são diferentes. São integralmente software. Não há dispositivo físico, não há instalação, não há investimento irrecuperável. Quem cancela não perde nada material — apenas deixa de acessar uma plataforma.
 
 Sem a âncora física, a retenção depende exclusivamente da percepção de valor do software. Se o software é invisível no contrato — porque entrou como bonificação de pacote —, o cliente não desenvolve percepção de valor. Quando o pacote acaba, o software sai junto.
 

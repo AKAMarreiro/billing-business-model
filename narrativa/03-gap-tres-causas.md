@@ -4,7 +4,7 @@ Tratar o gap como um número homogêneo leva a decisão errada. São três causa
 
 **Primeira causa: bonificação intencional.** Clientes que recebem anuidade gratuita ou reduzida como parte de negociação comercial. Isso é escolha, não inadimplência. O tratamento é estrutural: definir prazo e condições para que a bonificação não se torne permanente.
 
-**Segunda causa: pacotes plurianuais pré-pagos.** O exemplo concreto: em outubro de 2024, um cliente fechou trinta pivôs por três anos antecipados. Isso gerou {{chargeOut2024}} de charge em 2024 e zero em 2025 e 2026 — dois anos de gap falso para quem pagou em dia. O pacote é a solução, não o problema. O problema é a falta de reconhecimento contábil: o caixa entra de uma vez, mas a receita deveria ser reconhecida ao longo do prazo.
+**Segunda causa: pacotes plurianuais pré-pagos.** O exemplo concreto: em outubro de 2024, um cliente fechou um grupo de pivôs por um contrato plurianual antecipado. Isso gerou {{chargeOut2024}} de charge no fechamento e zero nos períodos seguintes — um gap falso para quem pagou em dia. O pacote é a solução, não o problema. O problema é a falta de reconhecimento contábil: o caixa entra de uma vez, mas a receita deveria ser reconhecida ao longo do prazo.
 
 **Terceira causa: inadimplência residual.** A taxa de inadimplência observada no Stripe é de {{inadimplencia}}. Isso é perda real, mas é a menor das três causas. O tratamento é operacional: cobrança automatizada, protocolo de 14 dias, bloqueio no décimo quinto dia.
 

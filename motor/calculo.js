@@ -15,23 +15,44 @@ function calcularEscopoPotencial(premissas, base) {
   const totalEscopo = totalPivos + totalIrripump + totalMedidor;
 
   const potencialHistorico = totalPivos * premissas.anuidadeRef;
-  const potencialCompleto = totalEscopo * premissas.anuidadeRef;
+  const potencialIrripump = totalIrripump * premissas.anuidadeIrripump;
+  const potencialMedidor = totalMedidor * premissas.anuidadeMedidorNivel;
+  const potencialCompleto = potencialHistorico + potencialIrripump + potencialMedidor;
 
   const receitaRecorrenteHoje = base.pontosPagantes * premissas.anuidadeRef * (1 - premissas.inadimplencia);
 
   const gapHistorico = potencialHistorico - (totalPivos * premissas.anuidadeRef * (base.pontosPagantes / totalPivos));
   const gapCompleto = potencialCompleto - receitaRecorrenteHoje;
 
-  const realizacaoHistorico = (base.pontosPagantes * premissas.anuidadeRef) / potencialHistorico;
+  const realizacaoHistorico = base.charge2025 !== undefined
+    ? base.charge2025 / potencialHistorico
+    : (base.pontosPagantes * premissas.anuidadeRef) / potencialHistorico;
   const realizacaoCompleto = receitaRecorrenteHoje / potencialCompleto;
 
   return {
+    escopoHistoricoPivos: {
+      totalPontos: totalPivos,
+      potencialAnual: potencialHistorico,
+      receitaAtual: base.pontosPagantes * premissas.anuidadeRef * (1 - premissas.inadimplencia),
+      gapAnual: gapHistorico,
+      taxaRealizacao: realizacaoHistorico
+    },
+    escopoCompleto: {
+      totalPontos: totalEscopo,
+      potencialAnual: potencialCompleto,
+      receitaAtual: receitaRecorrenteHoje,
+      gapAnual: gapCompleto,
+      taxaRealizacao: realizacaoCompleto
+    },
     totalPivos,
     totalIrripump,
     totalMedidor,
     totalEscopo,
+    potencialIrripump,
+    potencialMedidor,
     potencialHistorico,
     potencialCompleto,
+    precoMedioEscopo: potencialCompleto / totalEscopo,
     receitaRecorrenteHoje,
     gapHistorico,
     gapCompleto,
@@ -45,10 +66,11 @@ function calcularEscopoPotencial(premissas, base) {
 // ============================================
 
 function calcularCusto(premissas, totalPontos, ano = 1) {
+  const fatorInflacao = Math.pow(1 + (premissas.inflacaoCustosAno || premissas.reajusteAno || 0), ano - 1);
   const custoVarTotal = premissas.custoVarPontoInfra + premissas.custoVarPontoSuporte;
-  const custoVar = totalPontos * custoVarTotal;
-  const custoFixo = premissas.custoFixoPlataforma;
-  const custoOperacao = premissas.custoOperacaoBilling;
+  const custoVar = totalPontos * custoVarTotal * fatorInflacao;
+  const custoFixo = premissas.custoFixoPlataforma * fatorInflacao;
+  const custoOperacao = premissas.custoOperacaoBilling * fatorInflacao;
   const custoTotal = custoFixo + custoVar + custoOperacao;
   return {
     custoFixo,
@@ -239,11 +261,13 @@ function calcularPricingComparado(premissas, pricing) {
 
   // Encontrar tier correspondente na tabela direta
   let tierCorrespondente = null;
+  let menorDistancia = Infinity;
   const tabelaDireta = pricing.clienteDireto;
   for (const tier of tabelaDireta) {
-    if (precoUSD >= tier.ano3ef && precoUSD <= tier.ano1) {
+    const distancia = Math.abs(precoUSD - tier.ano1);
+    if (distancia < menorDistancia) {
       tierCorrespondente = tier;
-      break;
+      menorDistancia = distancia;
     }
   }
 
@@ -268,11 +292,11 @@ function calcularPricingComparado(premissas, pricing) {
 
 function simular(premissas, params) {
   const config = {
-    baseInicial: params.baseInicial || premissas.baseInicial || 4822,
-    novosEntrantes: params.novosEntrantes || premissas.novosEntrantesAno,
+    baseInicial: params.baseInicial ?? premissas.baseInicial ?? 4822,
+    novosEntrantes: params.novosEntrantes ?? premissas.novosEntrantesAno,
     adocaoMadura: params.adocaoMadura !== undefined ? params.adocaoMadura : premissas.adocaoPacoteMadura,
     adocaoNovos: params.adocaoNovos !== undefined ? params.adocaoNovos : premissas.adocaoPacoteNovos,
-    anosProjecao: params.anosProjecao || 5
+    anosProjecao: params.anosProjecao ?? 5
   };
 
   // Configuração contrafactual (ninguém fecha pacote)
