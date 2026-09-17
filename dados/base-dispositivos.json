@@ -3,11 +3,15 @@
   "pivos": {
     "total": 3926,
     "testeDemo": 79,
-    "efetivos": 3847
+    "efetivos": 3847,
+    "smartRainMigrados": 43
   },
+  "hoseReels": 34,
   "irripump": 803,
   "medidorNivel": 172,
+  "offGridRainGauges": 4,
   "fazendas": 963,
+  "fazendasUsandoAPI": 26,
   "usuariosAtivos": 4512,
   "pontosPagantes": 3422
 }

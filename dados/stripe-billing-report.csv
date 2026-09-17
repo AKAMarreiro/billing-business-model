@@ -1,4 +1,4 @@
-month,currency,charge,invoice
+month,currency,total_charge_volume,total_invoice_volume
 2023-04,brl,0,2.00
 2023-05,brl,0,4.00
 2023-06,brl,0,1202.00

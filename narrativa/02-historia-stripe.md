@@ -1,15 +1,13 @@
-# A História do Stripe
+# A Historia do Stripe
 
-A operação de assinatura da Irricontrol começou em abril de 2023 com o primeiro invoice via Stripe. O que se seguiu foram cinco meses de volume zero — a plataforma estava ativa, mas o modelo de cobrança ainda não.
+A operacao de assinatura da Irricontrol comecou em abril de 2023 com o primeiro invoice via Stripe. Os primeiros meses mostram volume zero de charge — a plataforma estava ativa, mas o modelo de cobranca ainda nao havia comecado. Em agosto de 2023, um invoice de {{invoiceAgo2023}} indica um primeiro teste de faturamento, mas sem charge correspondente.
 
-A atividade mínima se estendeu até março de 2024. A inflexão veio em abril de 2024, com {{chargeAbr2024}} de charge e {{invoiceAbr2024}} de invoice — o primeiro mês em que a operação real começou a se materializar.
+O ano de 2024 comeca com valores minimos: janeiro a marco acumulam apenas {{chargeQ12024}} de charge. A inflexao vem em abril de 2024, com {{chargeAbr2024}} de charge e {{invoiceAbr2024}} de invoice — o primeiro mes em que a operacao real comeca a se materializar. Mas maio de 2024 ja mostra a distorcao: {{chargeMai2024}} de charge contra apenas {{invoiceMai2024}} de invoice. Isso nao e inadimplencia; e o resultado de invoices reemitidos com valores diferentes, cobrancas feitas fora do Stripe, e ajustes manuais que nunca foram consolidados.
 
-O evento mais narrativamente importante foi outubro de 2024: {{invoiceOut2024}} de invoice num único mês, com apenas {{chargeOut2024}} de charge. Parte dessa diferença vem de pacotes plurianuais antecipados — o invoice reconhece todo o valor do contrato, o charge reflete a parcela. Mas a maior parte da distância entre invoice e charge ao longo de toda a série não é contábil: é operacional.
+O evento mais narrativamente importante foi outubro de 2024: {{invoiceOut2024}} de invoice num unico mes, com apenas {{chargeOut2024}} de charge. A diferenca de {{gapOut2024}} e o exemplo perfeito do problema: parte vem de um pacote plurianual antecipado (invoice reconhece todo o valor, charge reflete a parcela), mas a maior parte vem de invoices reemitidos, corrigidos, e reenviados pelo time de vendas sem nunca consolidar o original.
 
-A operação de cobrança hoje é manual. O administrador e o time de vendas emitem múltiplos invoices pelo mesmo cliente: a fatura original, a segunda via com desconto negociado, a terceira via com prazo estendido, a quarta via após o cliente alegar que não recebeu. Cliente não paga no prazo — emite outra. Cliente pede desconto — emite outra com valor diferente. O invoice sobe; o charge não acompanha. A distância entre os dois não é natureza do produto, é fricção do processo.
+A estabilizacao de 2025 mostra {{charge2025}} de charge ao ano contra {{invoice2025}} de invoice. A diferenca persistente de {{diferenca2025}} nao deve ser lida como risco de credito. E o acumulo de reemissoes, ajustes e negociacoes que nunca foram consolidados em um unico invoice correto. Como voce mesmo apontou: parte nao foi cobrada via Stripe, parte nao foi cobrada de todo.
 
-A estabilização de 2025 mostra {{charge2025}} de charge ao ano contra {{invoice2025}} de invoice. A diferença persistente não deve ser lida como risco de crédito. É o acúmulo de reemissoes, ajustes e negociações que nunca foram consolidados em um único invoice correto.
+O parcial de 2026 (janeiro a agosto) acumula {{charge2026}} de charge e {{invoice2026}} de invoice. A trajetoria e de crescimento, mas o crescimento e limitado pela estrutura atual de cobranca — nao pelo mercado.
 
-O parcial de 2026 (janeiro a agosto) acumula {{charge2026}} de charge e {{invoice2026}} de invoice. A trajetória é de crescimento, mas o crescimento é limitado pela estrutura atual de cobrança — não pelo mercado.
-
-O ponto analítico central: a distância entre invoice e charge é, em grande parte, um indicador de ineficiência operacional. Quem olha apenas o charge subestima a saúde da operação; quem olha apenas o invoice subestima o gap real de caixa. O número que importa é o charge — o que efetivamente entrou no banco.
+O ponto analitico central: a distancia entre invoice e charge e, em grande parte, um indicador de ineficiencia operacional. Quem olha apenas o charge subestima a saude da operacao; quem olha apenas o invoice subestima o gap real de caixa. O numero que importa e o charge — o que efetivamente entrou no banco. Mas, como voce apontou, parte do charge tambem nao e receita propria (pass-through, repasses). Sem separar isso, qualquer analise esta distorcida.
