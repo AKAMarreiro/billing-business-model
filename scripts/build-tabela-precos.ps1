@@ -1,6 +1,11 @@
 # Gerar Tabela de Precos Global - Irricontrol ONE
+# Esquema de cores da referencia image.png:
+#   #55B93C (verde) = cabecalho/cor principal
+#   #0092D6 (azul) = cor secundaria
+#   #505050 (cinza escuro) = texto
+#   #DADADA (cinza claro) = bordas
+#   #FFFFFF (branco) = fundo
 # Dados reais da tabela Bauer (cliente direto apenas)
-# Preco referencia: 1 ano = USD 220, 2 anos = USD 390 total (195/ano ef), 3 anos = USD 510 total (170/ano ef)
 # 3 idiomas: PT, EN, ES
 # Saida: dados/tabela-precos-{pt,en,es}.jpg
 
@@ -8,14 +13,9 @@ param([string]$Root = (Split-Path $PSScriptRoot -Parent))
 
 Add-Type -AssemblyName System.Drawing
 
-Write-Output "=== GERANDO TABELA DE PRECOS GLOBAL (3 IDIOMAS) ==="
+Write-Output "=== GERANDO TABELA DE PRECOS GLOBAL (3 IDIOMAS, cores da referencia) ==="
 
-# Dados reais da tabela Bauer (cliente direto)
-# a1 = preco 1 ano (referencia)
-# a2ef = preco efetivo/ano em pacote 2 anos
-# a3ef = preco efetivo/ano em pacote 3 anos
-# total2 = a2ef * 2 (total do pacote)
-# total3 = a3ef * 3 (total do pacote)
+# Dados reais da tabela Bauer
 $clienteDireto = @(
     @{ tier = "1-10"; a1 = 220; a2ef = 195; a3ef = 170; total2 = 390; total3 = 510 }
     @{ tier = "11-20"; a1 = 209; a2ef = 185; a3ef = 162; total2 = 370; total3 = 486 }
@@ -25,6 +25,13 @@ $clienteDireto = @(
 )
 
 $precoBase = 220
+
+# CORES DA REFERENCIA image.png
+$COLOR_GREEN = [System.Drawing.Color]::FromArgb(0x55, 0xB9, 0x3C)    # #55B93C
+$COLOR_BLUE  = [System.Drawing.Color]::FromArgb(0x00, 0x92, 0xD6)   # #0092D6
+$COLOR_DKGRAY = [System.Drawing.Color]::FromArgb(0x50, 0x50, 0x50)  # #505050
+$COLOR_LTGRAY = [System.Drawing.Color]::FromArgb(0xDA, 0xDA, 0xDA)  # #DADADA
+$COLOR_WHITE  = [System.Drawing.Color]::White
 
 function pctDesc($atual, $base) {
     return [Math]::Round((($atual - $base) / $base) * 100, 0)
@@ -37,25 +44,15 @@ function gerarTabela($titulo, $subtitulo, $colHeaders, $labels, $notas, $fileNam
     $rowHeight = 78
     $colWidths = @(180, 220, 220, 220)
     
-    $bgColor = [System.Drawing.Color]::White
-    $headerColor = [System.Drawing.Color]::FromArgb(30, 58, 95)
-    $headerTextColor = [System.Drawing.Color]::White
-    $rowColor1 = [System.Drawing.Color]::FromArgb(248, 250, 252)
-    $rowColor2 = [System.Drawing.Color]::White
-    $textColor = [System.Drawing.Color]::FromArgb(26, 26, 26)
-    $accentColor = [System.Drawing.Color]::FromArgb(200, 80, 30)
-    $greenColor = [System.Drawing.Color]::FromArgb(40, 130, 80)
-    $borderColor = [System.Drawing.Color]::FromArgb(220, 220, 220)
-    $refColor = [System.Drawing.Color]::FromArgb(100, 100, 100)
-    $totalColor = [System.Drawing.Color]::FromArgb(120, 120, 120)
-    
     $bmp = New-Object System.Drawing.Bitmap($width, $height)
     $g = [System.Drawing.Graphics]::FromImage($bmp)
     $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
     $g.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::ClearTypeGridFit
     
-    $g.FillRectangle([System.Drawing.SolidBrush]::new($bgColor), 0, 0, $width, $height)
+    # Fundo branco
+    $g.FillRectangle([System.Drawing.SolidBrush]::new($COLOR_WHITE), 0, 0, $width, $height)
     
+    # Fontes
     $fontTitle = New-Object System.Drawing.Font("Segoe UI", 20, [System.Drawing.FontStyle]::Bold)
     $fontSubtitle = New-Object System.Drawing.Font("Segoe UI", 11)
     $fontHeader = New-Object System.Drawing.Font("Segoe UI", 11, [System.Drawing.FontStyle]::Bold)
@@ -64,74 +61,79 @@ function gerarTabela($titulo, $subtitulo, $colHeaders, $labels, $notas, $fileNam
     $fontTotal = New-Object System.Drawing.Font("Segoe UI", 9, [System.Drawing.FontStyle]::Italic)
     $fontNote = New-Object System.Drawing.Font("Segoe UI", 8, [System.Drawing.FontStyle]::Italic)
     
-    $g.FillRectangle([System.Drawing.SolidBrush]::new($headerColor), 0, 0, $width, 6)
+    # Barra verde no topo (referencia)
+    $g.FillRectangle([System.Drawing.SolidBrush]::new($COLOR_GREEN), 0, 0, $width, 8)
     
+    # Titulo em verde
     $titleSize = $g.MeasureString($titulo, $fontTitle)
     $titleX = ($width - $titleSize.Width) / 2
-    $g.DrawString($titulo, $fontTitle, [System.Drawing.SolidBrush]::new($headerColor), $titleX, 22)
+    $g.DrawString($titulo, $fontTitle, [System.Drawing.SolidBrush]::new($COLOR_GREEN), $titleX, 24)
     
+    # Subtitulo em cinza escuro
     $subSize = $g.MeasureString($subtitulo, $fontSubtitle)
     $subX = ($width - $subSize.Width) / 2
-    $g.DrawString($subtitulo, $fontSubtitle, [System.Drawing.SolidBrush]::new($refColor), $subX, 52)
+    $g.DrawString($subtitulo, $fontSubtitle, [System.Drawing.SolidBrush]::new($COLOR_DKGRAY), $subX, 54)
     
-    $tableTop = 88
+    # Tabela
+    $tableTop = 90
     $tableLeft = ($width - ($colWidths | Measure-Object -Sum).Sum) / 2
     $totalTableWidth = ($colWidths | Measure-Object -Sum).Sum
     
-    # Cabecalho
+    # Cabecalho: verde
     $colX = $tableLeft
     for ($i = 0; $i -lt $colHeaders.Count; $i++) {
         $rect = [System.Drawing.RectangleF]::new($colX, $tableTop, $colWidths[$i], $headerHeight)
-        $g.FillRectangle([System.Drawing.SolidBrush]::new($headerColor), $rect)
-        $g.DrawString($colHeaders[$i], $fontHeader, [System.Drawing.SolidBrush]::new($headerTextColor), $rect.X + 12, $rect.Y + 18)
+        $g.FillRectangle([System.Drawing.SolidBrush]::new($COLOR_GREEN), $rect)
+        $g.DrawString($colHeaders[$i], $fontHeader, [System.Drawing.SolidBrush]::new($COLOR_WHITE), $rect.X + 12, $rect.Y + 18)
         $colX += $colWidths[$i]
     }
     
-    # Linhas
+    # Linhas: alternancia branco/cinza muito claro
     for ($row = 0; $row -lt $clienteDireto.Count; $row++) {
         $data = $clienteDireto[$row]
         $rowY = $tableTop + $headerHeight + ($row * $rowHeight)
-        $bg = if ($row % 2 -eq 0) { $rowColor1 } else { $rowColor2 }
-        
+        # Fundo alternado
+        $bg = if ($row % 2 -eq 0) { $COLOR_WHITE } else { [System.Drawing.Color]::FromArgb(0xF5, 0xF5, 0xF5) }
         $g.FillRectangle([System.Drawing.SolidBrush]::new($bg), $tableLeft, $rowY, $totalTableWidth, $rowHeight)
-        $g.DrawLine([System.Drawing.Pen]::new($borderColor, 1), $tableLeft, $rowY + $rowHeight, $tableLeft + $totalTableWidth, $rowY + $rowHeight)
+        # Borda inferior cinza claro
+        $g.DrawLine([System.Drawing.Pen]::new($COLOR_LTGRAY, 1), $tableLeft, $rowY + $rowHeight, $tableLeft + $totalTableWidth, $rowY + $rowHeight)
         
         # Volume
         $colX = $tableLeft + 14
-        $g.DrawString($data.tier + " " + $labels.devices, $fontCell, [System.Drawing.SolidBrush]::new($textColor), $colX, $rowY + 12)
+        $g.DrawString($data.tier + " " + $labels.devices, $fontCell, [System.Drawing.SolidBrush]::new($COLOR_DKGRAY), $colX, $rowY + 12)
         
         # 1 Ano
         $colX = $tableLeft + $colWidths[0] + 14
-        $g.DrawString("USD " + $data.a1, $fontCell, [System.Drawing.SolidBrush]::new($textColor), $colX, $rowY + 8)
+        $g.DrawString("USD " + $data.a1, $fontCell, [System.Drawing.SolidBrush]::new($COLOR_DKGRAY), $colX, $rowY + 8)
         if ($row -eq 0) {
-            $g.DrawString($labels.ref, $fontDesc, [System.Drawing.SolidBrush]::new($refColor), $colX, $rowY + 36)
+            $g.DrawString($labels.ref, $fontDesc, [System.Drawing.SolidBrush]::new($COLOR_DKGRAY), $colX, $rowY + 36)
         } else {
             $d = pctDesc $data.a1 $precoBase
-            $g.DrawString("(" + $d + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($accentColor), $colX, $rowY + 36)
+            $g.DrawString("(" + $d + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($COLOR_BLUE), $colX, $rowY + 36)
         }
-        $g.DrawString("(" + $labels.perYear + ")", $fontDesc, [System.Drawing.SolidBrush]::new($totalColor), $colX, $rowY + 52)
+        $g.DrawString("(" + $labels.perYear + ")", $fontDesc, [System.Drawing.SolidBrush]::new($COLOR_LTGRAY), $colX, $rowY + 52)
         
-        # 2 Anos (ef)
+        # 2 Anos (ef) - azul
         $colX = $tableLeft + $colWidths[0] + $colWidths[1] + 14
-        $g.DrawString("USD " + $data.a2ef + "/" + $labels.year, $fontCell, [System.Drawing.SolidBrush]::new($textColor), $colX, $rowY + 8)
+        $g.DrawString("USD " + $data.a2ef + "/" + $labels.year, $fontCell, [System.Drawing.SolidBrush]::new($COLOR_BLUE), $colX, $rowY + 8)
         $d2 = pctDesc $data.a2ef $precoBase
-        $g.DrawString("(" + $d2 + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($accentColor), $colX, $rowY + 36)
-        $g.DrawString("(" + $labels.total + ": USD " + $data.total2 + ")", $fontTotal, [System.Drawing.SolidBrush]::new($totalColor), $colX, $rowY + 52)
+        $g.DrawString("(" + $d2 + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($COLOR_BLUE), $colX, $rowY + 36)
+        $g.DrawString("(" + $labels.total + ": USD " + $data.total2 + ")", $fontTotal, [System.Drawing.SolidBrush]::new($COLOR_LTGRAY), $colX, $rowY + 52)
         
-        # 3 Anos (ef)
+        # 3 Anos (ef) - verde
         $colX = $tableLeft + $colWidths[0] + $colWidths[1] + $colWidths[2] + 14
-        $g.DrawString("USD " + $data.a3ef + "/" + $labels.year, $fontCell, [System.Drawing.SolidBrush]::new($textColor), $colX, $rowY + 8)
+        $g.DrawString("USD " + $data.a3ef + "/" + $labels.year, $fontCell, [System.Drawing.SolidBrush]::new($COLOR_GREEN), $colX, $rowY + 8)
         $d3 = pctDesc $data.a3ef $precoBase
-        $g.DrawString("(" + $d3 + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($greenColor), $colX, $rowY + 36)
-        $g.DrawString("(" + $labels.total + ": USD " + $data.total3 + ")", $fontTotal, [System.Drawing.SolidBrush]::new($totalColor), $colX, $rowY + 52)
+        $g.DrawString("(" + $d3 + "%)", $fontDesc, [System.Drawing.SolidBrush]::new($COLOR_GREEN), $colX, $rowY + 36)
+        $g.DrawString("(" + $labels.total + ": USD " + $data.total3 + ")", $fontTotal, [System.Drawing.SolidBrush]::new($COLOR_LTGRAY), $colX, $rowY + 52)
     }
     
     # Rodape
     $noteY = $tableTop + $headerHeight + ($clienteDireto.Count * $rowHeight) + 22
-    $g.DrawLine([System.Drawing.Pen]::new($borderColor, 1), $tableLeft, $noteY - 10, $tableLeft + $totalTableWidth, $noteY - 10)
+    $g.DrawLine([System.Drawing.Pen]::new($COLOR_LTGRAY, 1), $tableLeft, $noteY - 10, $tableLeft + $totalTableWidth, $noteY - 10)
     
     for ($i = 0; $i -lt $notas.Count; $i++) {
-        $g.DrawString($notas[$i], $fontNote, [System.Drawing.SolidBrush]::new($refColor), $tableLeft, $noteY + ($i * 17))
+        $g.DrawString($notas[$i], $fontNote, [System.Drawing.SolidBrush]::new($COLOR_DKGRAY), $tableLeft, $noteY + ($i * 17))
     }
     
     $path = "$Root\dados\$fileName"
@@ -174,4 +176,4 @@ $notasES = @(
 gerarTabela "Irricontrol ONE" "Tabla de Precios Global (Cliente Directo)" @("Volumen", "1 Ano", "2 Anos (ef)", "3 Anos (ef)") $labelsES $notasES "tabela-precos-es.jpg"
 
 Write-Output ""
-Write-Output "Todas as 3 tabelas geradas em dados/"
+Write-Output "Todas as 3 tabelas geradas com esquema de cores da referencia."
