@@ -60,6 +60,17 @@ Este documento registra a origem e data de cada valor em `dados/`.
 |--------|------|
 | Tabela global Bauer, proposta Helton 2024 | 2024 |
 
+## tabela-precos-{pt,en,es}.jpg
+
+| Arquivo | Conteudo | Origem | Data |
+|---------|----------|--------|------|
+| `tabela-precos-pt.jpg` | Tabela de precos em portugues (5 tiers, 3 duracoes) | Gerado a partir de pricing-global.json (cliente direto) | Set/2026 |
+| `tabela-precos-en.jpg` | Global pricing table in english (5 tiers, 3 durations) | Gerado a partir de pricing-global.json (cliente direto) | Set/2026 |
+| `tabela-precos-es.jpg` | Tabla de precios en espanol (5 tiers, 3 duraciones) | Gerado a partir de pricing-global.json (cliente directo) | Set/2026 |
+
+**Preco de referencia:** USD 220/device/ano (1 ano). Pacotes plurianuais: 2 anos = USD 390 total (USD 195/ano efetivo), 3 anos = USD 510 total (USD 170/ano efetivo).
+**Cliente direto apenas.** Dealer nao participa do modelo de receita (removido da apresentacao).
+
 ## Notas
 
 - **O preço de tabela (R$1.800) e o preço-alvo (R$1.200) não são desconto comercial negociável.** Os 33% de diferença são o incentivo estrutural para migração ao pagamento automático via cartão Stripe. Quem paga com boleto não tem desconto.
